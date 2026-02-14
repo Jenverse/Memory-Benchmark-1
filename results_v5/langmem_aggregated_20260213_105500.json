@@ -1,0 +1,263 @@
+{
+  "system_name": "External Memory (LangMem)",
+  "num_trials": 1,
+  "overall": {
+    "accuracy": {
+      "mean": 0.6197183098591549,
+      "std": 0.0
+    },
+    "accuracy_with_partial": {
+      "mean": 0.7112676056338029,
+      "std": 0.0
+    },
+    "correct": {
+      "mean": 44.0,
+      "std": 0.0
+    },
+    "incorrect": {
+      "mean": 14.0,
+      "std": 0.0
+    },
+    "partially_correct": {
+      "mean": 13.0,
+      "std": 0.0
+    },
+    "total_tests": {
+      "mean": 71.0,
+      "std": 0.0
+    }
+  },
+  "by_category": {
+    "consolidation": {
+      "accuracy": {
+        "mean": 0.125,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 6.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "contradiction_update": {
+      "accuracy": {
+        "mean": 0.7777777777777778,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.7777777777777778,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 14.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 18.0,
+        "std": 0.0
+      }
+    },
+    "cross_session": {
+      "accuracy": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.75,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "implicit_preference": {
+      "accuracy": {
+        "mean": 0.7,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.75,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 10.0,
+        "std": 0.0
+      }
+    },
+    "noise_resistance": {
+      "accuracy": {
+        "mean": 0.7777777777777778,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.7777777777777778,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 9.0,
+        "std": 0.0
+      }
+    },
+    "simple_recall": {
+      "accuracy": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.625,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "temporal_relevance": {
+      "accuracy": {
+        "mean": 0.7,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.7,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 3.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 10.0,
+        "std": 0.0
+      }
+    }
+  },
+  "failure_modes": {
+    "hallucinated_memory": {
+      "mean": 1.0,
+      "std": 0.0
+    },
+    "missing_memory": {
+      "mean": 21.0,
+      "std": 0.0
+    },
+    "stale_memory": {
+      "mean": 7.0,
+      "std": 0.0
+    }
+  },
+  "memory_efficiency": {
+    "avg_entries_added": {
+      "mean": 8.4,
+      "std": 0.0
+    },
+    "avg_entries_deleted": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "avg_entries_updated": {
+      "mean": 18.85,
+      "std": 0.0
+    },
+    "avg_llm_calls": {
+      "mean": 4.0,
+      "std": 0.0
+    },
+    "avg_total_entries": {
+      "mean": 8.4,
+      "std": 0.0
+    },
+    "total_input_tokens": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "total_output_tokens": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "eval_costs_total": {
+    "llm_calls": 142,
+    "input_tokens": 58362,
+    "output_tokens": 6970
+  }
+}

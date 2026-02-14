@@ -1,0 +1,267 @@
+{
+  "system_name": "External Memory (Mem0)",
+  "num_trials": 1,
+  "overall": {
+    "accuracy": {
+      "mean": 0.4507042253521127,
+      "std": 0.0
+    },
+    "accuracy_with_partial": {
+      "mean": 0.5985915492957746,
+      "std": 0.0
+    },
+    "correct": {
+      "mean": 32.0,
+      "std": 0.0
+    },
+    "incorrect": {
+      "mean": 17.0,
+      "std": 0.0
+    },
+    "partially_correct": {
+      "mean": 21.0,
+      "std": 0.0
+    },
+    "total_tests": {
+      "mean": 71.0,
+      "std": 0.0
+    }
+  },
+  "by_category": {
+    "consolidation": {
+      "accuracy": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.5625,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 5.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "contradiction_update": {
+      "accuracy": {
+        "mean": 0.6666666666666666,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.6666666666666666,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 12.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 6.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 18.0,
+        "std": 0.0
+      }
+    },
+    "cross_session": {
+      "accuracy": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.4375,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "implicit_preference": {
+      "accuracy": {
+        "mean": 0.7,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.85,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 7.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 3.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 10.0,
+        "std": 0.0
+      }
+    },
+    "noise_resistance": {
+      "accuracy": {
+        "mean": 0.5555555555555556,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.6111111111111112,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 5.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 3.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 9.0,
+        "std": 0.0
+      }
+    },
+    "simple_recall": {
+      "accuracy": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.5625,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 2.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 5.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 8.0,
+        "std": 0.0
+      }
+    },
+    "temporal_relevance": {
+      "accuracy": {
+        "mean": 0.4,
+        "std": 0.0
+      },
+      "accuracy_with_partial": {
+        "mean": 0.4,
+        "std": 0.0
+      },
+      "correct": {
+        "mean": 4.0,
+        "std": 0.0
+      },
+      "incorrect": {
+        "mean": 6.0,
+        "std": 0.0
+      },
+      "partially_correct": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "total": {
+        "mean": 10.0,
+        "std": 0.0
+      }
+    }
+  },
+  "failure_modes": {
+    "contradiction_unresolved": {
+      "mean": 3.0,
+      "std": 0.0
+    },
+    "missing_memory": {
+      "mean": 27.0,
+      "std": 0.0
+    },
+    "noise_retrieved": {
+      "mean": 7.0,
+      "std": 0.0
+    },
+    "stale_memory": {
+      "mean": 11.0,
+      "std": 0.0
+    }
+  },
+  "memory_efficiency": {
+    "avg_entries_added": {
+      "mean": 23.35,
+      "std": 0.0
+    },
+    "avg_entries_deleted": {
+      "mean": 0.35,
+      "std": 0.0
+    },
+    "avg_entries_updated": {
+      "mean": 2.0,
+      "std": 0.0
+    },
+    "avg_llm_calls": {
+      "mean": 4.0,
+      "std": 0.0
+    },
+    "avg_total_entries": {
+      "mean": 23.0,
+      "std": 0.0
+    },
+    "total_input_tokens": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "total_output_tokens": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "eval_costs_total": {
+    "llm_calls": 142,
+    "input_tokens": 37636,
+    "output_tokens": 6474
+  }
+}

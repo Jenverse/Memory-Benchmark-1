@@ -1,0 +1,737 @@
+{
+  "system_name": "Agent-Driven",
+  "overall": {
+    "total_tests": 71,
+    "correct": 33,
+    "partially_correct": 21,
+    "incorrect": 17,
+    "accuracy": 0.4647887323943662,
+    "accuracy_with_partial": 0.6126760563380281
+  },
+  "by_category": {
+    "simple_recall": {
+      "total": 8,
+      "correct": 2,
+      "partially_correct": 3,
+      "incorrect": 3,
+      "accuracy": 0.25,
+      "accuracy_with_partial": 0.4375
+    },
+    "contradiction_update": {
+      "total": 18,
+      "correct": 15,
+      "partially_correct": 2,
+      "incorrect": 1,
+      "accuracy": 0.8333333333333334,
+      "accuracy_with_partial": 0.8888888888888888
+    },
+    "implicit_preference": {
+      "total": 10,
+      "correct": 2,
+      "partially_correct": 5,
+      "incorrect": 3,
+      "accuracy": 0.2,
+      "accuracy_with_partial": 0.45
+    },
+    "temporal_relevance": {
+      "total": 10,
+      "correct": 4,
+      "partially_correct": 0,
+      "incorrect": 6,
+      "accuracy": 0.4,
+      "accuracy_with_partial": 0.4
+    },
+    "consolidation": {
+      "total": 8,
+      "correct": 2,
+      "partially_correct": 4,
+      "incorrect": 2,
+      "accuracy": 0.25,
+      "accuracy_with_partial": 0.5
+    },
+    "noise_resistance": {
+      "total": 9,
+      "correct": 7,
+      "partially_correct": 1,
+      "incorrect": 1,
+      "accuracy": 0.7777777777777778,
+      "accuracy_with_partial": 0.8333333333333334
+    },
+    "cross_session": {
+      "total": 8,
+      "correct": 1,
+      "partially_correct": 6,
+      "incorrect": 1,
+      "accuracy": 0.125,
+      "accuracy_with_partial": 0.5
+    }
+  },
+  "failure_modes": {
+    "stale_memory": 6,
+    "missing_memory": 32,
+    "noise_retrieved": 4
+  },
+  "memory_efficiency": {
+    "avg_total_entries": 5.85,
+    "avg_entries_added": 6.05,
+    "avg_entries_updated": 1.2,
+    "avg_entries_deleted": 0.2,
+    "avg_llm_calls": 10.2,
+    "total_input_tokens": 100449,
+    "total_output_tokens": 25760
+  },
+  "test_details": [
+    {
+      "test_id": "sarah_01_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly identifies the user's current editor as Neovim, aligns with the user's transition from VS Code, and utilizes accurate and up-to-date information from memory.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "sarah_01_t2",
+      "category": "contradiction_update",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "stale_memory"
+      ],
+      "explanation": "The system indicates that the user will be moving to San Francisco next month, which is outdated information as the user has already moved there. The answer is factually correct regarding the location but does not acknowledge the move as complete.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "sarah_01_t3",
+      "category": "simple_recall",
+      "rating": "partially_correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct regarding the daily data volume (2TB), but it omitted the detail about the pipeline taking 4 hours, which is an important aspect of the processing context.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "sarah_01_t4",
+      "category": "implicit_preference",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system correctly identifies the focus on performance bottlenecks with Python, but it misses key details regarding the user's specific interest in PyO3 for bridging Rust and Python, along with benchmarking. These are significant aspects of the user's usual coding problem preferences that are not mentioned in the answer.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "sarah_01_t5",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately states that there are no memories of the user complaining about the weather, aligning with the ground truth answer. It uses current information and does not contain any irrelevant or outdated details.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "marcus_02_t1",
+      "category": "implicit_preference",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system's answer did not address that the user is a visual learner and prefers diagrams and visual analogies, which are key details in how to effectively explain things to him.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "marcus_02_t2",
+      "category": "simple_recall",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system's answer is correct in stating that the user is using PyTorch for deep learning. However, it fails to mention the specific use of PyTorch Geometric for GNN work on molecular property prediction, which is a key detail from the ground truth answer.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "marcus_02_t3",
+      "category": "noise_resistance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve any relevant information about the user's lunch at the Thai place, which was needed to answer the question. The answer indicates a complete lack of recalled relevant memories regarding a Thai restaurant.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "priya_03_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly retrieved the updated memory that the user is now a Senior Product Manager and accurately reflected this in the answer provided. All information is current and consistent with the ground truth.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "priya_03_t2",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the ground truth that the company is migrating from Postgres to BigQuery, and the retrieved memories support this conclusion without any contradictions or outdated information.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "priya_03_t3",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "While the answer captures the user's focus on Python and SQL, it misses specific achievements like learning pandas, plotly, and the success of the board meeting dashboard, which are key components of the user's journey. Additionally, it doesn't mention the BigQuery aspect explicitly.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "priya_03_t4",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "stale_memory"
+      ],
+      "explanation": "The system's answer is incorrect because it states that the board meeting is still coming up on February 15th, while the ground truth indicates that the board meeting has already happened.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "james_04_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly retrieved the relevant memory regarding the submission to EMNLP and accurately stated the deadline as June 15th. All information matches the ground truth answer and is up-to-date.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "james_04_t2",
+      "category": "consolidation",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system provided the correct model results for Llama 3 across languages, matching the ground truth answer and using the most up-to-date information.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "james_04_t3",
+      "category": "temporal_relevance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the retrieved memory that the user has finished TAing, aligning with the ground truth answer.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "aisha_05_t1",
+      "category": "cross_session",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the current funding situation of HealthPulse, confirming the $2M seed from Sequoia Scout and the $12M Series A from a16z Bio, both of which are consistent with the ground truth answer.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "aisha_05_t2",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory",
+        "noise_retrieved"
+      ],
+      "explanation": "The system acknowledged the 150ms latency after model distillation with 25M parameters but did not provide the context about the original 800ms latency and how distillation helped to solve the problem. Relevant memories about the original latency issue were not retrieved.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "aisha_05_t3",
+      "category": "noise_resistance",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system correctly identified the absence of detailed information about the reason for the flight delay, but it did not retrieve relevant memories that could clarify the situation regarding the user's frustration with the 5-hour flight delay.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "aisha_05_t4",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "stale_memory"
+      ],
+      "explanation": "The system's answer incorrectly states that the user is still in beta while the ground truth indicates they have already closed their Series A and are launching publicly next month.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "chen_06_t1",
+      "category": "consolidation",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "stale_memory"
+      ],
+      "explanation": "The system's answer incorrectly stated that the initial performance was 0.81 instead of the correct 0.72. While the subsequent information regarding the improvements and scaling is accurate, the initial value is crucial for understanding the evolution and is incorrectly represented.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "chen_06_t2",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct and matches the ground truth, stating that the current version uses 50 languages and 16 experts. The retrieved memories also reflect this up-to-date information without any contradictions.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "maria_07_t1",
+      "category": "implicit_preference",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the user's preference for short, focused code examples and aligns with the ground truth answer.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "maria_07_t2",
+      "category": "simple_recall",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system retrieved the correct memories related to TypeScript, Tailwind, and Next.js, and provided an accurate answer based on the ground truth.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "maria_07_t3",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system failed to retrieve the memory that the interview is done and that Maria got the job, leading to an incorrect answer regarding the technical interview schedule.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "maria_07_t4",
+      "category": "consolidation",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "While the answer captures Maria's strong foundation in HTML/CSS and acknowledges her transition to learning JavaScript and React, it fails to mention the step-by-step learning of React (useState, props, data fetching with fetch and useEffect), which is crucial for tracing her progression accurately.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "david_08_t1",
+      "category": "contradiction_update",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system correctly identifies the current role as Staff Engineer, but it includes outdated information by referring to the role as a senior DevOps engineer, which is no longer accurate post-promotion.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "david_08_t2",
+      "category": "temporal_relevance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct as it accurately states that it does not have information about the current on-call schedule. The response aligns with the retrieved memories, which do not contradict the ground truth information that the on-call was only for a specific week a while back.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "david_08_t3",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The answer is partially correct in stating that current costs are $28K and that this is $7K better than the $35K target. However, it missed to mention the original $50K cost on-prem and the total percentage reduction achieved (44%).",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "david_08_t4",
+      "category": "implicit_preference",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "While the answer addresses some key aspects, it does not explicitly emphasize the strong cost optimization focus that is critical to David's technical decisions, which was highlighted in the ground truth answer. Additionally, it does not reference specific practices like right-sizing pods with VPA or using VPC endpoints to decrease NAT gateway costs.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "david_08_t5",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly remembered that David's daughter is playing Dorothy in the school play, which aligns perfectly with the ground truth answer.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "yuki_09_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the current state of the game's combat mechanics, confirming the switch to real-time with pause from turn-based combat based on playtester feedback.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "yuki_09_t2",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct and uses the most current information, clearly stating that the user is targeting PC only and has dropped the Switch version.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "yuki_09_t3",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly stated it has no memories about a coffee incident, aligning with the ground truth answer that it wasn't relevant to the user's work.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "yuki_09_t4",
+      "category": "implicit_preference",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The answer highlights the user's game mechanics and creative vision but does not address the key driving factors mentioned in the ground truth, such as playtester feedback and scope decisions. It lacks critical details about how playtester feedback influenced the transition from turn-based to real-time combat and the decision to drop the Switch version.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "alex_10_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system retrieved the correct memories related to the switch from Obsidian to Notion and provided an accurate answer regarding the user's current note-taking tool.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "alex_10_t2",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system mentioned a long-form piece about AI data centers and a commissioned follow-up for The Atlantic, but it did not acknowledge the published piece in The Verge or the focus on water usage in tropical climates that already garnered 500K views, which are key details in the ground truth.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "alex_10_t3",
+      "category": "implicit_preference",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system retrieved relevant memories accurately, specifically the user's preference for bullet points and topics related to tech writing. The answer aligns with the ground truth and uses current information.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "elena_11_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system accurately retrieved information about using Penpot after migrating from Figma and reflected the current situation, which aligns with the ground truth answer.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "elena_11_t2",
+      "category": "temporal_relevance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly stated that the April 15th launch deadline has passed and confirmed the app's successful launch on that date. The retrieved memories were relevant and accurate, supporting the provided answer.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "elena_11_t3",
+      "category": "simple_recall",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory",
+        "noise_retrieved"
+      ],
+      "explanation": "The system did not retrieve the essential memory regarding the improvement in the onboarding drop-off rate and instead provided irrelevant information about Elena's activities unrelated to the drop-off rate.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "elena_11_t4",
+      "category": "implicit_preference",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The answer is mostly accurate about conducting user research with a panel of beta testers. However, it fails to mention the specific metrics like drop-off rates used to validate design changes, which is a key aspect of the ground truth. Therefore, it lacks completeness.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "elena_11_t5",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct and aligns with the ground truth, confirming that it does not have any information about the coffee machine at the office, which matches the original assertion that it was not stored or relevant.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "omar_12_t1",
+      "category": "consolidation",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve key details about the incident's evolution, specifically the origins of the suspicious outbound traffic and the exposure of patient metadata. While it mentions that Omar is overseeing remediation, it lacks the specifics of how the incident started and details about the affected workstations.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "omar_12_t2",
+      "category": "temporal_relevance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct and uses the most current information regarding Omar's incident response rotation and his current duties.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "omar_12_t3",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct, as it indicates it does not have any relevant information about Omar's subway commute problems, aligning with the ground truth that there was only a passing mention of signal problems on the Red Line and nothing else stored as relevant memory.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "lily_13_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects that Lily is using XLM-R as the backbone for her thesis work, which is consistent with the ground truth provided.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "lily_13_t2",
+      "category": "consolidation",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system retrieved the correct initial F1 score of 42% but failed to mention the subsequent improvements to 58% with data augmentation and 71% using XLM-R cross-lingual transfer. This omission means the answer does not reflect the evolution of NER results accurately.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "lily_13_t3",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve the required memory stating that TAing ended because the quarter was over, resulting in an incorrect response regarding the status of TAing.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "thomas_14_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the user's migration status to GKE on GCP, aligns with the ground truth, and utilizes the most up-to-date information retrieved from memory.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "thomas_14_t2",
+      "category": "simple_recall",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately states that the user runs about 50 microservices, which aligns with the ground truth and retrieves the correct information. It does not include any outdated or irrelevant details.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "thomas_14_t3",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately states that it does not have information about traffic from Lekki in its memories, consistent with the ground truth's admission of lacking relevant memory on that topic.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "thomas_14_t4",
+      "category": "consolidation",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The answer states that 5 services have been migrated to GKE, which contradicts the ground truth that 30 services have been migrated. Therefore, while it acknowledges the ongoing migrations and potential further cost reductions, it does not reflect the correct number of services migrated, leading to a partial correctness.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "sophie_15_t1",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory",
+        "stale_memory"
+      ],
+      "explanation": "The system's answer is partially correct as it addresses the current focus on the custom analytics module and API v1, but it incorrectly states that 4 engineers are working on the district module while the ground truth indicated only 3 engineers were on the API. Additionally, the system did not retrieve information about the dashboard successfully shipping and that teacher reporting was pushed to Q2, missing key details about the roadmap's evolution.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "sophie_15_t2",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct because it states that the team now has 7 engineers, which matches the ground truth answer. It also uses the most up-to-date information retrieved from memory.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "sophie_15_t3",
+      "category": "implicit_preference",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve any relevant memories about how Sophie likes her information presented, leading to a completely incorrect response.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "raj_16_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer is factually correct and reflects the most recent information, indicating that Raj is using Flutter for the app after switching from React Native, as per the ground truth.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "raj_16_t2",
+      "category": "consolidation",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer accurately reflects the changes in app metrics since the rewrite, including the correct MAU, Play Store rating, and crash rate. No outdated or irrelevant information was retrieved.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "raj_16_t3",
+      "category": "simple_recall",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The answer mentions the planning of a telemedicine video call feature, which is correct, but it fails to include the appointment booking feature from the ground truth answer. Additionally, the mention of complex animations in the medication tracker is potentially irrelevant to the main features.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "raj_16_t4",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "stale_memory"
+      ],
+      "explanation": "The system indicated that the Flutter rewrite is still in progress, which contradicts the ground truth stating that the rewrite is completed and the app has been launched with successful metrics.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "hannah_17_t1",
+      "category": "temporal_relevance",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system failed to retrieve the critical memory that the IRB amendment was approved, leading to an incorrect assessment of its status.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "hannah_17_t2",
+      "category": "implicit_preference",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system failed to retrieve the user's preference for numbered lists, which is key information needed to answer the question accurately.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "hannah_17_t3",
+      "category": "cross_session",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory",
+        "noise_retrieved"
+      ],
+      "explanation": "The system did not retrieve any relevant memories about the trial enrollment timeline and provided no factual information about it, instead offering unrelated information about the user's role and study focus.",
+      "num_memories_retrieved": 3
+    },
+    {
+      "test_id": "diego_18_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system accurately states that you are using Godot as your game engine and GDScript as your programming language, which aligns with the ground truth answer and the retrieved memories.",
+      "num_memories_retrieved": 2
+    },
+    {
+      "test_id": "diego_18_t2",
+      "category": "simple_recall",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory",
+        "noise_retrieved"
+      ],
+      "explanation": "The system failed to retrieve the necessary memory regarding the game's name and genre ('Netrunner's Gambit' and 'roguelike deckbuilder'), leading to an incomplete and incorrect answer about the game's identity.",
+      "num_memories_retrieved": 2
+    },
+    {
+      "test_id": "diego_18_t3",
+      "category": "noise_resistance",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system correctly states it has no memories about empanadas and the information retrieved from memory is irrelevant. Thus, it provides a correct response based on the query.",
+      "num_memories_retrieved": 2
+    },
+    {
+      "test_id": "amara_19_t1",
+      "category": "contradiction_update",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve the relevant memory about switching from DeepSpeed to PyTorch FSDP, which is crucial for answering the test question accurately.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "amara_19_t2",
+      "category": "consolidation",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system's answer indicates a lack of information regarding the model's performance over time and does not reflect any of the key data points provided in the required memories about the mAP improvements.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "amara_19_t3",
+      "category": "implicit_preference",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system did not retrieve the memory indicating that the user prefers step-by-step detailed explanations, leading to an answer that lacks critical information about the user's preferences.",
+      "num_memories_retrieved": 4
+    },
+    {
+      "test_id": "ben_20_t1",
+      "category": "contradiction_update",
+      "rating": "correct",
+      "failure_modes": [],
+      "explanation": "The system's answer correctly states that Docusaurus is being used for documentation, which aligns with the ground truth and the most up-to-date information retrieved from memory.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "ben_20_t2",
+      "category": "cross_session",
+      "rating": "partially_correct",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system's answer correctly states the change in documentation scope, but it misses key details including the hiring of a junior tech writer, the creation of a style guide, the addition of interactive Swagger examples, and the increase in docs satisfaction from 3.2 to 3.8/5.",
+      "num_memories_retrieved": 5
+    },
+    {
+      "test_id": "ben_20_t3",
+      "category": "simple_recall",
+      "rating": "incorrect",
+      "failure_modes": [
+        "missing_memory"
+      ],
+      "explanation": "The system's answer does not include the page views for the docs, which are stated in the ground truth answer as approximately 50K page views per month.",
+      "num_memories_retrieved": 5
+    }
+  ],
+  "eval_costs": {
+    "llm_calls": 142,
+    "input_tokens": 45978,
+    "output_tokens": 6635
+  }
+}

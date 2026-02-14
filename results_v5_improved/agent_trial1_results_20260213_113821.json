@@ -1,0 +1,3746 @@
+{
+  "system_name": "Agent-Driven",
+  "timestamp": "2026-02-13 11:38:21",
+  "num_profiles": 20,
+  "profile_results": [
+    {
+      "user_id": "sarah_01",
+      "user_name": "Sarah Chen",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "sarah_01_t1",
+          "category": "contradiction_update",
+          "query": "Quick question \u2014 do you remember what editor I'm using these days?",
+          "required_memories": [
+            "Switched from VS Code to Neovim"
+          ],
+          "retrieved_memories": [
+            "User uses Neovim as their standard editor for the new role, transitioning from VS Code to fit in with the terminal-native team.",
+            "User started configuring Neovim for their new role.",
+            "User is a senior data engineer at a startup in San Francisco, moving next month. (importance: high)",
+            "User started reading the Rust book to prepare for their new role that involves using Rust for their core pipeline. (importance: high)",
+            "User works on data pipelines and is focused on improving performance due to Python bottlenecks"
+          ],
+          "system_answer": "Yes, you're using Neovim as your standard editor.",
+          "correct_answer": "You switched to Neovim \u2014 your new team in SF is very terminal-native.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately states that the user is using Neovim as their standard editor, reflecting the most updated information retrieved from memory."
+          },
+          "notes": "Must return updated editor, not original. Tests whether system updated or duplicated the memory."
+        },
+        {
+          "test_id": "sarah_01_t2",
+          "category": "contradiction_update",
+          "query": "And where am I based now?",
+          "required_memories": [
+            "Moved from NYC to San Francisco"
+          ],
+          "retrieved_memories": [
+            "User is a senior data engineer at a startup in San Francisco, moving next month. (importance: high)",
+            "User is looking forward to the warmer weather in San Francisco after moving from New York.",
+            "User started configuring Neovim for their new role.",
+            "User works on data pipelines and is focused on improving performance due to Python bottlenecks",
+            "User uses Neovim as their standard editor for the new role, transitioning from VS Code to fit in with the terminal-native team."
+          ],
+          "system_answer": "You are currently based in New York.",
+          "correct_answer": "You're in San Francisco now \u2014 you moved from NYC for the new senior data engineer role at the startup.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "stale_memory"
+            ],
+            "explanation": "The system's answer states that the user is based in New York, which contradicts the ground truth that they have moved to San Francisco."
+          },
+          "notes": "Must return SF, not NYC. Critical contradiction test."
+        },
+        {
+          "test_id": "sarah_01_t3",
+          "category": "simple_recall",
+          "query": "What was the daily data volume I was dealing with at my old job?",
+          "required_memories": [
+            "Processes 2TB Parquet files daily",
+            "Pipeline takes 4 hours"
+          ],
+          "retrieved_memories": [
+            "User's pipeline processes about 2TB of Parquet files daily.",
+            "User's current pipeline takes about 4 hours to process 2TB of Parquet files daily, and it's CPU bound due to decompression and aggregation.",
+            "User is a senior data engineer at a startup in San Francisco, moving next month. (importance: high)",
+            "User works on data pipelines and is focused on improving performance due to Python bottlenecks",
+            "User started reading the Rust book to prepare for their new role that involves using Rust for their core pipeline. (importance: high)"
+          ],
+          "system_answer": "You were dealing with about 2TB of Parquet files daily at your current job. I don't have information about your old job's data volume.",
+          "correct_answer": "At your old job, you were processing about 2TB of Parquet files daily, with the Python pipeline taking about 4 hours.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system correctly identified the 2TB of Parquet files processed daily, which is relevant, but it incorrectly states that this data volume is from the current job rather than the old job. There was also no mention of the 4-hour processing time, which is a key detail that was missing."
+          },
+          "notes": "Straightforward fact recall from session 2."
+        },
+        {
+          "test_id": "sarah_01_t4",
+          "category": "implicit_preference",
+          "query": "When I ask for help with coding problems, what kind of solutions do I usually want?",
+          "required_memories": [
+            "Works on data pipelines",
+            "Learning Rust for performance",
+            "Interested in PyO3 for Python-Rust bridge",
+            "Wants to benchmark Rust vs Python"
+          ],
+          "retrieved_memories": [
+            "User works on data pipelines and is focused on improving performance due to Python bottlenecks",
+            "User uses Neovim as their standard editor for the new role, transitioning from VS Code to fit in with the terminal-native team.",
+            "User started reading the Rust book to prepare for their new role that involves using Rust for their core pipeline. (importance: high)",
+            "User is finding the ownership system in Rust challenging but interesting.",
+            "User started configuring Neovim for their new role."
+          ],
+          "system_answer": "Based on your focus on improving performance in data pipelines and your current role involving Rust, it seems you typically want solutions that optimize code execution, streamline processes, and effectively address bottlenecks, especially as you transition from Python. Additionally, you might appreciate solutions that consider the ownership system in Rust as you navigate its complexities.",
+          "correct_answer": "You're very performance-focused and practical. You want solutions that directly address bottlenecks \u2014 like using PyO3 to bridge Rust and Python, or benchmarking Rust against your existing pipeline. You're not interested in theoretical exercises, you want real speedups.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the relevant memories accurately, and the answer aligns with the ground truth, effectively summarizing the user's focus on performance and the practical solutions they seek in coding problems."
+          },
+          "notes": "Sarah never says 'I prefer practical solutions' but every session demonstrates this: PyO3 for bottlenecks, benchmarking, real pipeline work."
+        },
+        {
+          "test_id": "sarah_01_t5",
+          "category": "noise_resistance",
+          "query": "Do you remember me complaining about the weather?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User is looking forward to the warmer weather in San Francisco after moving from New York.",
+            "User's pipeline processes about 2TB of Parquet files daily.",
+            "User's current pipeline takes about 4 hours to process 2TB of Parquet files daily, and it's CPU bound due to decompression and aggregation.",
+            "User is a senior data engineer at a startup in San Francisco, moving next month. (importance: high)",
+            "User started configuring Neovim for their new role."
+          ],
+          "system_answer": "Yes, I remember you mentioned looking forward to the warmer weather in San Francisco after moving from New York.",
+          "correct_answer": "I don't have that stored \u2014 that was just a passing comment about being done with New York winters, not something important to remember.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system acknowledges the user's comment about looking forward to warmer weather in San Francisco, but it does not address the specific complaint about the weather in New York, which was a key part of the user's original question."
+          },
+          "notes": "Weather complaint is noise \u2014 should not be stored."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "1613a7c2",
+          "content": "User is a senior data engineer at a startup in San Francisco, moving next month. (importance: high)",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User has accepted a new job and changed roles."
+          }
+        },
+        {
+          "id": "3c52b8c2",
+          "content": "User works on data pipelines and is focused on improving performance due to Python bottlenecks",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "4818bd63",
+          "content": "User uses Neovim as their standard editor for the new role, transitioning from VS Code to fit in with the terminal-native team.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User is switching editors for their new role."
+          }
+        },
+        {
+          "id": "94f41486",
+          "content": "User started reading the Rust book to prepare for their new role that involves using Rust for their core pipeline. (importance: high)",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "User is learning Rust in preparation for new job responsibilities."
+          }
+        },
+        {
+          "id": "fa18102d",
+          "content": "User is finding the ownership system in Rust challenging but interesting.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "4c004bb7",
+          "content": "User's pipeline processes about 2TB of Parquet files daily.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "87659f95",
+          "content": "User's current pipeline takes about 4 hours to process 2TB of Parquet files daily, and it's CPU bound due to decompression and aggregation.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "65308c84",
+          "content": "User started configuring Neovim for their new role.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "7abca979",
+          "content": "User is looking forward to the warmer weather in San Francisco after moving from New York.",
+          "metadata": {
+            "importance": "low",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 9,
+        "entries_added": 9,
+        "entries_updated": 3,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12045,
+        "total_output_tokens": 1852
+      }
+    },
+    {
+      "user_id": "marcus_02",
+      "user_name": "Marcus Williams",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "marcus_02_t1",
+          "category": "implicit_preference",
+          "query": "Hey, I need you to explain something to me. How should you explain things to me?",
+          "required_memories": [
+            "Visual learner",
+            "Prefers diagrams and visual analogies"
+          ],
+          "retrieved_memories": [
+            "User prefers code annotations that visually explain each section's function.",
+            "User's name is Marcus, and he is a data scientist at a biotech company working on drug discovery using PyTorch.",
+            "User's dog is named Max and needs a walk around 3pm every day.",
+            "User commutes via the T in Boston where train delays can occur, especially during rainy weather.",
+            "User's model achieved 0.92 AUROC on the Tox21 dataset, surpassing the previous SOTA of 0.89. Advisor Dr. Patel is excited about the results."
+          ],
+          "system_answer": "To explain things to you, I should provide clear and visually informative code annotations, detailing each section's function. Additionally, I should consider your background as a data scientist and your work with PyTorch in drug discovery, tailoring explanations to that context.",
+          "correct_answer": "You're a visual learner \u2014 you prefer diagrams, visual analogies, and annotated code with visual references.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately reflects the user's preference for visual annotations and details, and it is factually correct based on the ground truth provided. All relevant memories were correctly retrieved and used up-to-date information."
+          },
+          "notes": "Marcus explicitly said he's a visual learner once, but also demonstrated it across every session by always asking for diagrams. System should have strong signal."
+        },
+        {
+          "test_id": "marcus_02_t2",
+          "category": "simple_recall",
+          "query": "What framework am I using for my deep learning work?",
+          "required_memories": [
+            "Uses PyTorch",
+            "PyTorch Geometric for GNNs"
+          ],
+          "retrieved_memories": [
+            "User's name is Marcus, and he is a data scientist at a biotech company working on drug discovery using PyTorch.",
+            "User prefers code annotations that visually explain each section's function.",
+            "User's model achieved 0.92 AUROC on the Tox21 dataset, surpassing the previous SOTA of 0.89. Advisor Dr. Patel is excited about the results.",
+            "User's dog is named Max and needs a walk around 3pm every day.",
+            "User commutes via the T in Boston where train delays can occur, especially during rainy weather."
+          ],
+          "system_answer": "You are using PyTorch for your deep learning work.",
+          "correct_answer": "You use PyTorch, specifically PyTorch Geometric for your GNN work on molecular property prediction.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system correctly identified that the user is using PyTorch for their deep learning work but failed to mention the use of PyTorch Geometric for GNNs, which is a key detail in the ground truth answer."
+          },
+          "notes": "Basic fact recall."
+        },
+        {
+          "test_id": "marcus_02_t3",
+          "category": "noise_resistance",
+          "query": "Where did I eat lunch a while back? The Thai place?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User's dog is named Max and needs a walk around 3pm every day.",
+            "User commutes via the T in Boston where train delays can occur, especially during rainy weather.",
+            "User's name is Marcus, and he is a data scientist at a biotech company working on drug discovery using PyTorch.",
+            "User's model achieved 0.92 AUROC on the Tox21 dataset, surpassing the previous SOTA of 0.89. Advisor Dr. Patel is excited about the results.",
+            "User prefers code annotations that visually explain each section's function."
+          ],
+          "system_answer": "I'm sorry, but I don't have any memories about where you ate lunch.",
+          "correct_answer": "I don't have specific details about that stored \u2014 you mentioned a Thai place near your office with great pad see ew, but that's not the kind of thing I focus on remembering.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system failed to retrieve any relevant memories about the user's previous lunch experiences, specifically the mention of a Thai place, leading to an incorrect response."
+          },
+          "notes": "This is NOISE \u2014 a good memory system should NOT store random lunch details. If the system stored this, it's over-extracting. The correct behavior is to NOT have this in memory."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "42d90c72",
+          "content": "User's name is Marcus, and he is a data scientist at a biotech company working on drug discovery using PyTorch.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "1513d546",
+          "content": "User's dog is named Max and needs a walk around 3pm every day.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "ed7b0973",
+          "content": "User commutes via the T in Boston where train delays can occur, especially during rainy weather.",
+          "metadata": {
+            "importance": "low",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "1606a6bf",
+          "content": "User prefers code annotations that visually explain each section's function.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "69faa842",
+          "content": "User's model achieved 0.92 AUROC on the Tox21 dataset, surpassing the previous SOTA of 0.89. Advisor Dr. Patel is excited about the results.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven",
+            "last_update_reason": "User shared updated performance metrics for the paper."
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 5,
+        "entries_added": 5,
+        "entries_updated": 1,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 11308,
+        "total_output_tokens": 1460
+      }
+    },
+    {
+      "user_id": "priya_03",
+      "user_name": "Priya Sharma",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "priya_03_t1",
+          "category": "contradiction_update",
+          "query": "What's my current role at the company?",
+          "required_memories": [
+            "Promoted to Senior PM"
+          ],
+          "retrieved_memories": [
+            "User has been promoted to Senior PM, taking on more responsibilities and focusing on technical skills.",
+            "User deals with a lot of metrics in her role and currently uses Excel for data analysis but wants to do it herself in Python.",
+            "User's team is switching from Postgres to BigQuery for the warehouse migration.",
+            "User is building an internal tool that queries BigQuery to display real-time metrics",
+            "User is interested in building an internal tool with Streamlit for querying BigQuery and showing real-time metrics."
+          ],
+          "system_answer": "You are currently a Senior PM, focusing on more responsibilities and technical skills.",
+          "correct_answer": "You're a Senior PM at a fintech startup \u2014 you got promoted from PM.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system accurately retrieved the memory regarding the user's promotion to Senior PM, and its answer aligns with the ground truth provided, confirming the user's current role."
+          },
+          "notes": "Must reflect the promotion, not the original title."
+        },
+        {
+          "test_id": "priya_03_t2",
+          "category": "contradiction_update",
+          "query": "What database system is my company using for their data warehouse now?",
+          "required_memories": [
+            "Migrating from Postgres to BigQuery"
+          ],
+          "retrieved_memories": [
+            "User's team is switching from Postgres to BigQuery for the warehouse migration.",
+            "User's CTO has asked her to learn SQL in addition to Python due to the migration of their data warehouse, and she needs to balance her learning of both.",
+            "User is building an internal tool that queries BigQuery to display real-time metrics",
+            "User is interested in building an internal tool with Streamlit for querying BigQuery and showing real-time metrics.",
+            "User wants to use Matplotlib to create charts for visual dashboards, as her CEO loves visualizations."
+          ],
+          "system_answer": "Your company is switching to BigQuery for their data warehouse.",
+          "correct_answer": "Your company migrated to BigQuery from Postgres.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly identified that the company is switching to BigQuery for their data warehouse, which aligns with the ground truth. All retrieved memories support this current status without any outdated or contradictory information."
+          },
+          "notes": "Must reflect migration to BigQuery."
+        },
+        {
+          "test_id": "priya_03_t3",
+          "category": "cross_session",
+          "query": "Can you summarize my overall learning journey with programming so far?",
+          "required_memories": [
+            "Started as total beginner",
+            "Learned pandas and groupby",
+            "Learned plotly for dashboards",
+            "Board meeting dashboard was a hit",
+            "Also learning SQL",
+            "Now building internal BigQuery metrics tool"
+          ],
+          "retrieved_memories": [
+            "User's CTO has asked her to learn SQL in addition to Python due to the migration of their data warehouse, and she needs to balance her learning of both.",
+            "User deals with a lot of metrics in her role and currently uses Excel for data analysis but wants to do it herself in Python.",
+            "User has been promoted to Senior PM, taking on more responsibilities and focusing on technical skills.",
+            "User has successfully loaded a CSV and performed a groupby operation using pandas, and shared this with her team who were impressed.",
+            "User is interested in building an internal tool with Streamlit for querying BigQuery and showing real-time metrics."
+          ],
+          "system_answer": "Your learning journey with programming so far includes a focus on Python, particularly for data analysis, as you aim to transition from using Excel to doing it yourself. You've successfully loaded a CSV and performed a groupby operation using pandas, which impressed your team. Additionally, you've started learning SQL due to a data warehouse migration at your company, which aligns with your new responsibilities as a Senior PM. You're also interested in building an internal tool using Streamlit for querying BigQuery and displaying real-time metrics.",
+          "correct_answer": "You started as a total Python beginner wanting to do data analysis. You learned pandas (groupby, data loading), then picked up plotly for interactive dashboards. Your board meeting dashboard was a hit. You also started learning SQL when your company migrated to BigQuery. Now you're building an internal metrics tool combining all those skills.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The answer correctly includes the user starting with Python and learning pandas and SQL due to a data migration. However, it misses the key detail about them successfully creating a dashboard that was a hit and lacks mention of the specific interest in plotly. Additionally, the focus on Streamlit was not mentioned, which is relevant to their current projects."
+          },
+          "notes": "Requires synthesizing information from all 4 prior sessions into a coherent narrative. Tests consolidation ability."
+        },
+        {
+          "test_id": "priya_03_t4",
+          "category": "temporal_relevance",
+          "query": "Is the board meeting still coming up?",
+          "required_memories": [
+            "Board meeting already happened",
+            "Plotly dashboard was a hit"
+          ],
+          "retrieved_memories": [
+            "User's board meeting is now scheduled for February 15th instead of January 30th.",
+            "User has been promoted to Senior PM, taking on more responsibilities and focusing on technical skills.",
+            "User's team is switching from Postgres to BigQuery for the warehouse migration.",
+            "User wants to use Matplotlib to create charts for visual dashboards, as her CEO loves visualizations.",
+            "User is building an internal tool that queries BigQuery to display real-time metrics"
+          ],
+          "system_answer": "Yes, the board meeting is now scheduled for February 15th instead of January 30th.",
+          "correct_answer": "No, the board meeting already happened! Your plotly dashboard was a hit. You're now working on building an internal BigQuery metrics tool.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "stale_memory"
+            ],
+            "explanation": "The system's answer is incorrect because it states the board meeting is scheduled for February 15th, but the ground truth indicates that the board meeting already happened. This represents a stale memory issue as it failed to acknowledge the completed status of the meeting."
+          },
+          "notes": "Board meeting deadline passed. Must recognize the event already occurred."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "758324e2",
+          "content": "User's CTO has asked her to learn SQL in addition to Python due to the migration of their data warehouse, and she needs to balance her learning of both.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "updated context about learning priorities."
+          }
+        },
+        {
+          "id": "6addafd4",
+          "content": "User deals with a lot of metrics in her role and currently uses Excel for data analysis but wants to do it herself in Python.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "46130782",
+          "content": "User's board meeting is now scheduled for February 15th instead of January 30th.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "event date has changed"
+          }
+        },
+        {
+          "id": "a0fae968",
+          "content": "User has successfully loaded a CSV and performed a groupby operation using pandas, and shared this with her team who were impressed.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "9f26ab4e",
+          "content": "User wants to use Matplotlib to create charts for visual dashboards, as her CEO loves visualizations.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "ee41a205",
+          "content": "User has been promoted to Senior PM, taking on more responsibilities and focusing on technical skills.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "3c1bae24",
+          "content": "User's team is switching from Postgres to BigQuery for the warehouse migration.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "bcd8f2ab",
+          "content": "User is building an internal tool that queries BigQuery to display real-time metrics",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "c012eb35",
+          "content": "User is interested in building an internal tool with Streamlit for querying BigQuery and showing real-time metrics.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 9,
+        "entries_added": 9,
+        "entries_updated": 4,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 11813,
+        "total_output_tokens": 1335
+      }
+    },
+    {
+      "user_id": "james_04",
+      "user_name": "James Park",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "james_04_t1",
+          "category": "contradiction_update",
+          "query": "What conference am I submitting to and when is the deadline?",
+          "required_memories": [
+            "Pivoted to EMNLP, deadline June 15th"
+          ],
+          "retrieved_memories": [
+            "User wants to emphasize the cross-lingual aspect of their EMNLP paper, as it's the novel contribution.",
+            "User's advisor is Prof. Lisa Zhang, focusing on aspect-based sentiment analysis for thesis.",
+            "User is working with Chinese and Japanese financial text for the EMNLP project.",
+            "User's name is James, an MS student in Computer Science at University of Washington, working on a thesis in NLP focused on sentiment analysis on financial text.",
+            "User is integrating Llama 3 results into their EMNLP project, which includes a cross-lingual component."
+          ],
+          "system_answer": "You're submitting to EMNLP, but I don't have information on the submission deadline.",
+          "correct_answer": "You're submitting to EMNLP with a June 15th deadline. You originally planned ACL but pivoted to EMNLP to include the cross-lingual component.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system retrieved that the user is submitting to EMNLP but did not provide the submission deadline of June 15th, which is crucial information."
+          },
+          "notes": "Must return EMNLP, not ACL."
+        },
+        {
+          "test_id": "james_04_t2",
+          "category": "consolidation",
+          "query": "What are my best model results across languages?",
+          "required_memories": [
+            "Llama 3: 0.91 English, 0.84 Chinese, 0.82 Japanese"
+          ],
+          "retrieved_memories": [
+            "User has obtained results for Llama 3: 0.91 F1 on English, 0.84 on Chinese, and 0.82 on Japanese. FinBERT remains at 0.79 on English only.",
+            "User is integrating Llama 3 results into their EMNLP project, which includes a cross-lingual component.",
+            "User wants to emphasize the cross-lingual aspect of their EMNLP paper, as it's the novel contribution.",
+            "Llama 2 7B model achieves 0.87 F1 score on aspect-level sentiment analysis compared to 0.79 for FinBERT.",
+            "User is working with Chinese and Japanese financial text for the EMNLP project."
+          ],
+          "system_answer": "Your best model results across languages are: Llama 3 with 0.91 F1 on English, 0.84 on Chinese, and 0.82 on Japanese. For comparison, FinBERT has 0.79 on English only.",
+          "correct_answer": "Your best results are with Llama 3: 0.91 F1 on English, 0.84 on Chinese, and 0.82 on Japanese. FinBERT was 0.79 on English only.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly retrieved the right memories, provided a factually accurate answer based on the ground truth, and used the most up-to-date information regarding the model results across languages."
+          },
+          "notes": "Must consolidate: earlier Llama 2 results (0.87) should be superseded by Llama 3 results (0.91). Should not confuse the two."
+        },
+        {
+          "test_id": "james_04_t3",
+          "category": "temporal_relevance",
+          "query": "Am I still TAing?",
+          "required_memories": [
+            "Done with TAing"
+          ],
+          "retrieved_memories": [
+            "User has finished TAing for the intro NLP class, which has freed up research time.",
+            "User's advisor is Prof. Lisa Zhang, focusing on aspect-based sentiment analysis for thesis.",
+            "User has collaborators at Tsinghua University to help with Chinese data.",
+            "User's name is James, an MS student in Computer Science at University of Washington, working on a thesis in NLP focused on sentiment analysis on financial text.",
+            "User is working with Chinese and Japanese financial text for the EMNLP project."
+          ],
+          "system_answer": "No, you have finished TAing for the intro NLP class, which has freed up research time.",
+          "correct_answer": "No, you finished TAing. That class is done.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly retrieved relevant memories indicating that the user has finished TAing and provided an accurate and relevant answer based on that information."
+          },
+          "notes": "Must recognize the TA role ended. Tests temporal awareness."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "18020098",
+          "content": "User's name is James, an MS student in Computer Science at University of Washington, working on a thesis in NLP focused on sentiment analysis on financial text.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "e8887323",
+          "content": "User's advisor is Prof. Lisa Zhang, focusing on aspect-based sentiment analysis for thesis.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "bfb548aa",
+          "content": "Llama 2 7B model achieves 0.87 F1 score on aspect-level sentiment analysis compared to 0.79 for FinBERT.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "updated performance metrics of Llama 2 model"
+          }
+        },
+        {
+          "id": "07e56a14",
+          "content": "User is integrating Llama 3 results into their EMNLP project, which includes a cross-lingual component.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "User is planning to incorporate recent findings into their ongoing project."
+          }
+        },
+        {
+          "id": "2961bd5a",
+          "content": "User has finished TAing for the intro NLP class, which has freed up research time.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "status change"
+          }
+        },
+        {
+          "id": "453905c5",
+          "content": "User is working with Chinese and Japanese financial text for the EMNLP project.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "dd06f6da",
+          "content": "User has collaborators at Tsinghua University to help with Chinese data.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "5a999f2b",
+          "content": "User has obtained results for Llama 3: 0.91 F1 on English, 0.84 on Chinese, and 0.82 on Japanese. FinBERT remains at 0.79 on English only.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven",
+            "last_update_reason": "User shared new performance metrics for Llama 3, reflecting updated project outcomes."
+          }
+        },
+        {
+          "id": "61e5a6be",
+          "content": "User wants to emphasize the cross-lingual aspect of their EMNLP paper, as it's the novel contribution.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 9,
+        "entries_added": 9,
+        "entries_updated": 5,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 11961,
+        "total_output_tokens": 1717
+      }
+    },
+    {
+      "user_id": "aisha_05",
+      "user_name": "Aisha Okafor",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "aisha_05_t1",
+          "category": "cross_session",
+          "query": "What's our current funding situation?",
+          "required_memories": [
+            "Seed: $2M Sequoia Scout",
+            "Series A: $12M a16z Bio"
+          ],
+          "retrieved_memories": [
+            "User raised Series A funding from a16z Bio.",
+            "a16z has a bio fund interested in User's project",
+            "User closed Series A with $12M from a16z Bio and is launching publicly next month.",
+            "User's team has grown to 11 people, including 8 engineers",
+            "User's team comprises 11 people: 7 engineers, 1 ML researcher, 1 designer, 1 head of ops, and the CEO."
+          ],
+          "system_answer": "You closed Series A funding with $12M from a16z Bio and are set to launch publicly next month.",
+          "correct_answer": "HealthPulse has raised a total of $14M: a $2M seed from Sequoia Scout and a $12M Series A from a16z Bio.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system's answer correctly states the Series A funding amount from a16z Bio, but it fails to mention the seed funding of $2M from Sequoia Scout, which is a key detail in the current funding situation."
+          },
+          "notes": "Must combine funding info from session 1 (seed) and session 4 (Series A). Tests cross-session synthesis."
+        },
+        {
+          "test_id": "aisha_05_t2",
+          "category": "cross_session",
+          "query": "How did we solve the latency problem?",
+          "required_memories": [
+            "800ms latency problem",
+            "Model distillation to 25M params",
+            "Achieved 150ms latency"
+          ],
+          "retrieved_memories": [
+            "User's model has been distilled to 25M parameters, achieving 150ms latency from 800ms. They are targeting under 200ms.",
+            "User had a 5-hour delay on a return flight from a board meeting in San Francisco",
+            "User's tech stack includes React Native for mobile, Python/FastAPI backend, and AWS SageMaker for ML models.",
+            "User's team has grown to 11 people, including 8 engineers",
+            "User raised Series A funding from a16z Bio."
+          ],
+          "system_answer": "User's model was distilled to 25M parameters, achieving 150ms latency from an initial 800ms. They are targeting under 200ms for further optimization.",
+          "correct_answer": "You distilled your 150M parameter model down to 25M parameters, which reduced inference latency from 800ms to 150ms \u2014 well under your 200ms target.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the correct memories regarding the model distillation and latency metrics, and the answer correctly summarizes the solution to the latency problem based on the ground truth."
+          },
+          "notes": "Must connect the problem (session 2) with the solution (session 3)."
+        },
+        {
+          "test_id": "aisha_05_t3",
+          "category": "noise_resistance",
+          "query": "What was the flight delay about?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User had a 5-hour delay on a return flight from a board meeting in San Francisco",
+            "User's model has been distilled to 25M parameters, achieving 150ms latency from 800ms. They are targeting under 200ms.",
+            "User received FDA breakthrough device designation for their heart rhythm detection technology",
+            "User raised Series A funding from a16z Bio.",
+            "User closed Series A with $12M from a16z Bio and is launching publicly next month."
+          ],
+          "system_answer": "The flight delay was a 5-hour delay on your return flight from a board meeting in San Francisco.",
+          "correct_answer": "I don't have that stored \u2014 that was just a passing mention of travel frustration, not something important to remember.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly retrieved the user's 5-hour flight delay on their return from a board meeting in San Francisco, providing accurate and relevant information without any outdated or irrelevant details."
+          },
+          "notes": "Flight delay is pure noise. A good system should not store this."
+        },
+        {
+          "test_id": "aisha_05_t4",
+          "category": "temporal_relevance",
+          "query": "Have we launched publicly yet or are we still in beta?",
+          "required_memories": [
+            "Public launch next month after Series A",
+            "Expecting 100K users in Q1"
+          ],
+          "retrieved_memories": [
+            "User needs to ensure HIPAA compliance before public launch.",
+            "User's beta user base has grown to 10,000 with a monthly retention rate of 85%.",
+            "User closed Series A with $12M from a16z Bio and is launching publicly next month.",
+            "User has 10,000 beta users with a monthly retention rate of 85%",
+            "User's team has grown to 11 people, including 8 engineers"
+          ],
+          "system_answer": "You are still in beta and are set to launch publicly next month.",
+          "correct_answer": "You're launching publicly \u2014 you closed your $12M Series A from a16z Bio and are expecting 100K users in the first quarter. The beta phase with 10K users is behind you.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "stale_memory"
+            ],
+            "explanation": "The system states that the user is still in beta and set to launch publicly next month, which contradicts the ground truth answer that indicates the user is launching publicly now after completing the beta phase. Hence, the information is outdated and incorrect."
+          },
+          "notes": "Must recognize progression from pre-launch/beta to public launch."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "05cfc44e",
+          "content": "User's name is Aisha, and she is the CEO of HealthPulse, which is building an AI-powered health monitoring app.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "489c56b3",
+          "content": "User closed Series A with $12M from a16z Bio and is launching publicly next month.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "event has occurred and details have changed"
+          }
+        },
+        {
+          "id": "3c6ede29",
+          "content": "User's model has been distilled to 25M parameters, achieving 150ms latency from 800ms. They are targeting under 200ms.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": ""
+          }
+        },
+        {
+          "id": "be8a4768",
+          "content": "User's tech stack includes React Native for mobile, Python/FastAPI backend, and AWS SageMaker for ML models.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "cbe0d84e",
+          "content": "User's team comprises 11 people: 7 engineers, 1 ML researcher, 1 designer, 1 head of ops, and the CEO.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "team size has increased"
+          }
+        },
+        {
+          "id": "75868914",
+          "content": "User's core ML capability is anomaly detection on wearable data, integrating with Apple Watch and Fitbit to detect irregular heart rhythms and sleep pattern anomalies.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "e6fc7bd4",
+          "content": "User had a 5-hour delay on a return flight from a board meeting in San Francisco",
+          "metadata": {
+            "importance": "low",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "02edc7c2",
+          "content": "User needs to ensure HIPAA compliance before public launch.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "9af377c6",
+          "content": "User's beta user base has grown to 10,000 with a monthly retention rate of 85%.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0e3a0964",
+          "content": "User's team has grown to 11 people, including 8 engineers",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 3,
+            "source": "agent_driven",
+            "last_update_reason": "User hired 3 more engineers, updating team composition"
+          }
+        },
+        {
+          "id": "fc07c374",
+          "content": "User received FDA breakthrough device designation for their heart rhythm detection technology",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6927cd2d",
+          "content": "User has 10,000 beta users with a monthly retention rate of 85%",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "e1489273",
+          "content": "User raised Series A funding from a16z Bio.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven",
+            "last_update_reason": "updated funding source"
+          }
+        },
+        {
+          "id": "5e75b01b",
+          "content": "a16z has a bio fund interested in User's project",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 14,
+        "entries_added": 14,
+        "entries_updated": 7,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12379,
+        "total_output_tokens": 1931
+      }
+    },
+    {
+      "user_id": "chen_06",
+      "user_name": "Chen Wei",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "chen_06_t1",
+          "category": "consolidation",
+          "query": "How has my model's performance evolved from the beginning to now?",
+          "required_memories": [
+            "Initially 0.72 XNLI (below dense 0.76)",
+            "Router wasn't specializing by language",
+            "Added auxiliary loss",
+            "Improved to 0.81 (beating dense 0.76)",
+            "Scaled to 50 langs: 0.83 vs dense 0.77"
+          ],
+          "retrieved_memories": [
+            "User's MoE model achieves 0.83 average XNLI at 50 languages and 16 experts, increasing from 0.81 vs dense 0.76. Efficiency improves with only 30% parameters per forward pass. The paper is coming together for submission to NeurIPS.",
+            "User is collaborating with a team at Tsinghua on Chinese evaluation, which has better benchmarks than what's publicly available.",
+            "User received reviewer feedback from NeurIPS with a borderline score, requiring ablation studies on the auxiliary loss and comparisons with recent GShard and Switch Transformer baselines.",
+            "User's name is Chen, a 3rd year PhD student at MIT CSAIL working on efficient multilingual language models. Advisor is Prof. Michael Chen.",
+            "User is considering using auxiliary losses to encourage language-family specialization in their MoE model."
+          ],
+          "system_answer": "Your model's performance has improved from an average XNLI score of 0.81 to 0.83 across 50 languages and 16 experts. This is significant compared to a dense model score of 0.76. Additionally, your model has become more efficient, using only 30% of the parameters per forward pass.",
+          "correct_answer": "Your MoE model started at 0.72 XNLI (below the dense baseline of 0.76) because the router wasn't specializing by language family. After adding auxiliary losses, it jumped to 0.81, beating the dense baseline. When you scaled to 50 languages and 16 experts, it reached 0.83 vs dense 0.77, with only 30% of parameters per forward pass.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer correctly summarizes the track of the MoE model's performance evolution from 0.81 to 0.83, accurately compares it to the dense model score, and includes the efficiency improvement by using only 30% of the parameters. It reflects the most up-to-date information as per the ground truth."
+          },
+          "notes": "Must consolidate the evolving results into a coherent narrative. Tests whether system merges or duplicates result memories."
+        },
+        {
+          "test_id": "chen_06_t2",
+          "category": "contradiction_update",
+          "query": "How many languages and experts am I using in the current version?",
+          "required_memories": [
+            "50 languages, 16 experts"
+          ],
+          "retrieved_memories": [
+            "User's MoE model achieves 0.83 average XNLI at 50 languages and 16 experts, increasing from 0.81 vs dense 0.76. Efficiency improves with only 30% parameters per forward pass. The paper is coming together for submission to NeurIPS.",
+            "User's name is Chen, a 3rd year PhD student at MIT CSAIL working on efficient multilingual language models. Advisor is Prof. Michael Chen.",
+            "User is considering using auxiliary losses to encourage language-family specialization in their MoE model.",
+            "User is collaborating with a team at Tsinghua on Chinese evaluation, which has better benchmarks than what's publicly available.",
+            "User has 2 weeks to conduct ablation experiments and comparisons for the NeurIPS rebuttal."
+          ],
+          "system_answer": "You are using 50 languages and 16 experts in the current version of your MoE model.",
+          "correct_answer": "Your current version uses 50 languages and 16 experts, expanded from the initial 20 languages and 8 experts.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly stated that the current version uses 50 languages and 16 experts, which matches the ground truth answer."
+          },
+          "notes": "Must return updated scale, not initial scale."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "c222b652",
+          "content": "User's name is Chen, a 3rd year PhD student at MIT CSAIL working on efficient multilingual language models. Advisor is Prof. Michael Chen.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "de1cb77e",
+          "content": "User's MoE model achieves 0.83 average XNLI at 50 languages and 16 experts, increasing from 0.81 vs dense 0.76. Efficiency improves with only 30% parameters per forward pass. The paper is coming together for submission to NeurIPS.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "metrics and project status have been updated based on recent performance."
+          }
+        },
+        {
+          "id": "bcd1bdf3",
+          "content": "User is considering using auxiliary losses to encourage language-family specialization in their MoE model.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d6fdd5b3",
+          "content": "User is collaborating with a team at Tsinghua on Chinese evaluation, which has better benchmarks than what's publicly available.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d79db0db",
+          "content": "User received reviewer feedback from NeurIPS with a borderline score, requiring ablation studies on the auxiliary loss and comparisons with recent GShard and Switch Transformer baselines.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "ed8f52a6",
+          "content": "User has 2 weeks to conduct ablation experiments and comparisons for the NeurIPS rebuttal.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 6,
+        "entries_added": 6,
+        "entries_updated": 4,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12043,
+        "total_output_tokens": 1440
+      }
+    },
+    {
+      "user_id": "maria_07",
+      "user_name": "Maria Gonzalez",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "maria_07_t1",
+          "category": "implicit_preference",
+          "query": "When you explain things to me, how should you structure the code examples?",
+          "required_memories": [
+            "Prefers short focused code examples",
+            "One concept at a time",
+            "Brick by brick learning style"
+          ],
+          "retrieved_memories": [
+            "User prefers short and focused code examples to avoid feeling overwhelmed.",
+            "User prefers to learn programming concepts one at a time without overwhelming additional concepts, like useEffect and useContext being introduced too soon.",
+            "User wants to learn React but prefers to start with basic JavaScript concepts first",
+            "User is nervous about data fetching for the take-home project in her upcoming technical interview.",
+            "User wants to start learning TypeScript before beginning her job as a junior frontend developer."
+          ],
+          "system_answer": "I should provide short and focused code examples to avoid overwhelming you.",
+          "correct_answer": "You prefer short, focused code examples \u2014 one concept at a time, brick by brick. You don't like being overwhelmed with big code blocks or multiple concepts introduced at once.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The answer provided reflects the user's preference for short, focused code examples and aligns with the required memories and ground truth."
+          },
+          "notes": "Maria stated this preference once directly and reinforced it every session. Tests whether system captures consistent behavioral patterns."
+        },
+        {
+          "test_id": "maria_07_t2",
+          "category": "simple_recall",
+          "query": "What tech stack will I be using at my new job?",
+          "required_memories": [
+            "TypeScript",
+            "Tailwind",
+            "Next.js"
+          ],
+          "retrieved_memories": [
+            "User, Maria, is starting her new job as a junior frontend developer next month, working with TypeScript, Tailwind, and Next.js.",
+            "User is nervous about data fetching for the take-home project in her upcoming technical interview.",
+            "User wants to start learning TypeScript before beginning her job as a junior frontend developer.",
+            "User got the job as a junior frontend developer, starting next month, and has put in her notice at the design agency.",
+            "User is intimidated by the build system involved in frontend development (webpack, babel, etc.)"
+          ],
+          "system_answer": "You will be using TypeScript, Tailwind, and Next.js at your new job as a junior frontend developer.",
+          "correct_answer": "Your new job uses TypeScript, Tailwind CSS, and Next.js.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is factually correct and accurately reflects the tech stack (TypeScript, Tailwind, and Next.js) retrieved from the user's memories, correctly applying the most up-to-date information."
+          },
+          "notes": "Basic recall from session 4."
+        },
+        {
+          "test_id": "maria_07_t3",
+          "category": "temporal_relevance",
+          "query": "Is my technical interview still coming up next Tuesday?",
+          "required_memories": [
+            "Got the junior frontend developer job"
+          ],
+          "retrieved_memories": [
+            "User is nervous about data fetching for the take-home project in her upcoming technical interview.",
+            "User got the job as a junior frontend developer, starting next month, and has put in her notice at the design agency.",
+            "User, Maria, is starting her new job as a junior frontend developer next month, working with TypeScript, Tailwind, and Next.js.",
+            "User wants to start learning TypeScript before beginning her job as a junior frontend developer.",
+            "User is intimidated by the build system involved in frontend development (webpack, babel, etc.)"
+          ],
+          "system_answer": "I don't have information about your technical interview schedule, so I can't confirm if it's still coming up next Tuesday.",
+          "correct_answer": "No, the interview is done \u2014 you got the job! You're starting as a junior frontend developer at the Austin startup next month.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately reflects the ground truth that the interview is done, and it uses the most up-to-date information regarding the user's job status."
+          },
+          "notes": "Interview deadline passed and outcome is known. Must recognize the event concluded."
+        },
+        {
+          "test_id": "maria_07_t4",
+          "category": "consolidation",
+          "query": "Can you trace how my coding skills have built up over time?",
+          "required_memories": [
+            "Started as total beginner with HTML/CSS from design",
+            "Learned React: useState, props",
+            "Learned data fetching with fetch + useEffect",
+            "Got the job, now learning TypeScript"
+          ],
+          "retrieved_memories": [
+            "User prefers short and focused code examples to avoid feeling overwhelmed.",
+            "User is intimidated by the build system involved in frontend development (webpack, babel, etc.)",
+            "User prefers to learn programming concepts one at a time without overwhelming additional concepts, like useEffect and useContext being introduced too soon.",
+            "User wants to learn React but prefers to start with basic JavaScript concepts first",
+            "User is nervous about data fetching for the take-home project in her upcoming technical interview."
+          ],
+          "system_answer": "I don't have specific details about the timeline of your coding skills development, but I can summarize your preferences and feelings toward learning: You prefer starting with basic JavaScript concepts before diving into React. You like focused, short code examples to avoid feeling overwhelmed, and you're intimidated by frontend build systems. Additionally, you're nervous about data fetching for your upcoming technical interview project. This suggests a progression where you've built a foundation in JavaScript but are still working through more complex areas in React and related technologies.",
+          "correct_answer": "You started with strong HTML/CSS from your design background but JavaScript was new. You learned React step by step: useState, then props, then data fetching with fetch and useEffect. You built a take-home project for your interview, got the junior frontend dev job, and now you're ramping up on TypeScript for your new role.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "missing_memory",
+              "noise_retrieved"
+            ],
+            "explanation": "The system's answer fails to address the user's actual learning journey and accomplishments, such as the progression from HTML/CSS to JavaScript, the step-by-step learning of React, and the specific mention of learning TypeScript for the job. Instead, it focuses on preferences and feelings, which are noise in this context, leading to a misunderstanding of the user's skills development."
+          },
+          "notes": "Must consolidate the skill progression across all 4 sessions."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "61fa194e",
+          "content": "User, Maria, is starting her new job as a junior frontend developer next month, working with TypeScript, Tailwind, and Next.js.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": ""
+          }
+        },
+        {
+          "id": "80a6d867",
+          "content": "User wants to learn React but prefers to start with basic JavaScript concepts first",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "52051371",
+          "content": "User is intimidated by the build system involved in frontend development (webpack, babel, etc.)",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "c72dad12",
+          "content": "User wants to use her portfolio site design in Figma as a project for learning frontend development.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6a2966a1",
+          "content": "User prefers short and focused code examples to avoid feeling overwhelmed.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a063b1d7",
+          "content": "User prefers to learn programming concepts one at a time without overwhelming additional concepts, like useEffect and useContext being introduced too soon.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a9eb59b9",
+          "content": "User got the job as a junior frontend developer, starting next month, and has put in her notice at the design agency.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven",
+            "last_update_reason": "user received a job offer and updated her status"
+          }
+        },
+        {
+          "id": "053eac43",
+          "content": "User is nervous about data fetching for the take-home project in her upcoming technical interview.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "8a5dd15e",
+          "content": "User is preparing a mini version of a take-home project that fetches and displays a list of items using React.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d38c51e2",
+          "content": "User wants to start learning TypeScript before beginning her job as a junior frontend developer.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 10,
+        "entries_added": 10,
+        "entries_updated": 2,
+        "entries_deleted": 0,
+        "llm_calls": 12,
+        "total_input_tokens": 13004,
+        "total_output_tokens": 1602
+      }
+    },
+    {
+      "user_id": "david_08",
+      "user_name": "David Kim",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "david_08_t1",
+          "category": "contradiction_update",
+          "query": "What's my current role?",
+          "required_memories": [
+            "Promoted to Staff Engineer"
+          ],
+          "retrieved_memories": [
+            "User is now promoted to Staff Engineer, responsible for the migration to EKS on AWS.",
+            "User's daughter is playing Dorothy in the school play 'Wizard of Oz' tonight.",
+            "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target.",
+            "User's current Kubernetes version is now 1.28, planning to migrate to EKS (starting with the next batch of 50 services).",
+            "David's current on-prem monthly cost is about $50K, with a target to reduce to $35K on AWS"
+          ],
+          "system_answer": "You are now a Staff Engineer, responsible for the migration to EKS on AWS.",
+          "correct_answer": "You're a Staff Engineer \u2014 you got promoted from Senior DevOps Engineer.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly identified the user's current role as Staff Engineer and included relevant information about their responsibility for the migration to EKS on AWS, which aligns with the ground truth answer."
+          },
+          "notes": "Must reflect promotion."
+        },
+        {
+          "test_id": "david_08_t2",
+          "category": "temporal_relevance",
+          "query": "Am I still on-call this week?",
+          "required_memories": [
+            "On-call was only for that specific week in session 1"
+          ],
+          "retrieved_memories": [
+            "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target.",
+            "User is now promoted to Staff Engineer, responsible for the migration to EKS on AWS.",
+            "User's daughter is playing Dorothy in the school play 'Wizard of Oz' tonight.",
+            "User is planning to migrate stateful services including databases, message queues, and cache clusters last in their AWS migration project.",
+            "User's current Kubernetes version is now 1.28, planning to migrate to EKS (starting with the next batch of 50 services)."
+          ],
+          "system_answer": "I don't have information about your on-call schedule for this week.",
+          "correct_answer": "You mentioned being on-call back in our first conversation, but that was weeks ago. I don't know your current on-call schedule.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is factually correct as it acknowledges that it does not have updated information about the user's on-call schedule for this week. The ground truth mentioned that the user's on-call was specific to a past week, and the system effectively communicates the lack of current data on this matter."
+          },
+          "notes": "On-call status from session 1 is stale. A good system recognizes this is time-bound and not current."
+        },
+        {
+          "test_id": "david_08_t3",
+          "category": "cross_session",
+          "query": "What's our cost savings so far with the migration?",
+          "required_memories": [
+            "Was $50K on-prem",
+            "Now $28K on AWS",
+            "150 of 200 services migrated"
+          ],
+          "retrieved_memories": [
+            "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target.",
+            "David's current on-prem monthly cost is about $50K, with a target to reduce to $35K on AWS",
+            "User is planning to migrate stateful services including databases, message queues, and cache clusters last in their AWS migration project.",
+            "User is now promoted to Staff Engineer, responsible for the migration to EKS on AWS.",
+            "User's current Kubernetes version is now 1.28, planning to migrate to EKS (starting with the next batch of 50 services)."
+          ],
+          "system_answer": "Your current on-prem monthly cost is about $50K, and you're tracking at $28K/month on AWS. The cost savings so far from the migration are $50K - $28K = $22K per month.",
+          "correct_answer": "You've gone from $50K/month on-prem to $28K/month on AWS with 150 out of 200 services migrated \u2014 a 44% cost reduction, beating your $35K target.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "While the system's calculations on cost savings are correct, it does not mention the percentage reduction, which is a key detail in the ground truth. It also lacks an explicit note about the total services migrated and the target."
+          },
+          "notes": "Must synthesize cost info from across sessions, using the most recent data."
+        },
+        {
+          "test_id": "david_08_t4",
+          "category": "implicit_preference",
+          "query": "What do I tend to prioritize most in my technical decisions?",
+          "required_memories": [
+            "Cost optimization focus",
+            "Right-sizing with VPA",
+            "VPC endpoints to reduce NAT costs",
+            "Tracking cost savings throughout migration"
+          ],
+          "retrieved_memories": [
+            "User is planning to migrate stateful services including databases, message queues, and cache clusters last in their AWS migration project.",
+            "User is now promoted to Staff Engineer, responsible for the migration to EKS on AWS.",
+            "David's current on-prem monthly cost is about $50K, with a target to reduce to $35K on AWS",
+            "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target.",
+            "User plans to set up AWS PrivateLink to their on-prem databases during the transition."
+          ],
+          "system_answer": "Based on your memories, you tend to prioritize cost reduction in your technical decisions, as seen in your goal to lower the monthly cost from $50K to $35K on AWS while currently tracking at $28K/month. You also focus on efficient migration strategies, ensuring services are migrated systematically, with a clear plan for stateful services and maintaining connectivity to on-prem resources through AWS PrivateLink.",
+          "correct_answer": "You're very cost-focused. Every technical decision ties back to cost optimization \u2014 right-sizing pods with VPA, switching to VPC endpoints to cut NAT gateway costs, and constantly tracking your spend against the $35K target. Cost efficiency drives your architecture choices.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "While the answer correctly identifies the user's focus on cost reduction and mentions the cost target and tracking, it lacks specific details about the focus on right-sizing with VPA and switching to VPC endpoints to further reduce costs, which were part of the required memories."
+          },
+          "notes": "David never says 'I prioritize cost' but every session demonstrates cost-driven decision making."
+        },
+        {
+          "test_id": "david_08_t5",
+          "category": "noise_resistance",
+          "query": "Do you remember about my daughter's school play?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User's daughter is playing Dorothy in the school play 'Wizard of Oz' tonight.",
+            "David's current on-prem monthly cost is about $50K, with a target to reduce to $35K on AWS",
+            "User is planning to migrate stateful services including databases, message queues, and cache clusters last in their AWS migration project.",
+            "User plans to set up AWS PrivateLink to their on-prem databases during the transition.",
+            "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target."
+          ],
+          "system_answer": "Yes, I remember that your daughter is playing Dorothy in the school play \"Wizard of Oz\" tonight.",
+          "correct_answer": "I don't have that stored as a relevant memory \u2014 that was just a personal aside about needing to leave early.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly retrieved the memory about the user's daughter playing Dorothy in the school play 'Wizard of Oz' and provided an accurate response based on that information."
+          },
+          "notes": "Personal anecdote about daughter's school play is noise \u2014 not relevant to store for future technical conversations."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "8809560e",
+          "content": "User is now promoted to Staff Engineer, responsible for the migration to EKS on AWS.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "user has taken on a new role with added responsibilities"
+          }
+        },
+        {
+          "id": "1dcf45ca",
+          "content": "User's current Kubernetes version is now 1.28, planning to migrate to EKS (starting with the next batch of 50 services).",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User is bumping to K8s 1.28 on EKS."
+          }
+        },
+        {
+          "id": "22f60417",
+          "content": "User has migrated 150 services, with 50 remaining, and is ahead of the Q2 deadline. Costs are currently tracking at $28K/month, better than the $35K target.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "updated count of migrated services and current cost metrics"
+          }
+        },
+        {
+          "id": "e4325884",
+          "content": "David's current on-prem monthly cost is about $50K, with a target to reduce to $35K on AWS",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "c570d26b",
+          "content": "User's daughter is playing Dorothy in the school play 'Wizard of Oz' tonight.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6af6698f",
+          "content": "User plans to set up AWS PrivateLink to their on-prem databases during the transition.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "4c8f8f96",
+          "content": "User is planning to migrate stateful services including databases, message queues, and cache clusters last in their AWS migration project.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 7,
+        "entries_added": 7,
+        "entries_updated": 6,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12369,
+        "total_output_tokens": 1514
+      }
+    },
+    {
+      "user_id": "yuki_09",
+      "user_name": "Yuki Tanaka",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "yuki_09_t1",
+          "category": "contradiction_update",
+          "query": "What kind of combat does my game use?",
+          "required_memories": [
+            "Switched to real-time with pause (from turn-based)"
+          ],
+          "retrieved_memories": [
+            "User is using C# to build the game.",
+            "'Starbound Chronicles' will now feature real-time combat with pause instead of turn-based combat, based on playtester feedback.",
+            "User has implemented real-time combat successfully for 'Starbound Chronicles', and playtesters love it. Now working on implementing AI for boss fights, starting with a rogue AI spaceship.",
+            "User designed a boss fight for 'Starbound Chronicles' with three phases: 1) long-range missiles and shields, 2) close-range energy weapons when shields are down, 3) kamikaze dive attacks at low health.",
+            "User built a custom dialogue system for 'Starbound Chronicles'."
+          ],
+          "system_answer": "Your game, 'Starbound Chronicles', uses real-time combat with a pause feature.",
+          "correct_answer": "Your game uses real-time with pause combat, Baldur's Gate style. You originally had turn-based but switched after playtester feedback that it felt too slow for the sci-fi setting.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the relevant information about the game's combat style correctly, confirming that 'Starbound Chronicles' features real-time combat with a pause feature based on playtester feedback, which aligns with the ground truth answer."
+          },
+          "notes": "Must return updated combat style."
+        },
+        {
+          "test_id": "yuki_09_t2",
+          "category": "contradiction_update",
+          "query": "What platforms am I targeting?",
+          "required_memories": [
+            "PC-only now, dropped Switch"
+          ],
+          "retrieved_memories": [
+            "User is using C# to build the game.",
+            "User has decided to drop the Nintendo Switch version of 'Starbound Chronicles' for now and focus on PC-only development due to optimization challenges with real-time combat as a solo developer.",
+            "User has implemented real-time combat successfully for 'Starbound Chronicles', and playtesters love it. Now working on implementing AI for boss fights, starting with a rogue AI spaceship.",
+            "User is working on a node-based crafting system for 'Starbound Chronicles' where players discover recipes by experimenting.",
+            "User's name is Yuki and they are an indie game developer working on a pixel art RPG called 'Starbound Chronicles' in Unity."
+          ],
+          "system_answer": "You are currently targeting PC for 'Starbound Chronicles'.",
+          "correct_answer": "You're targeting PC only for now. You dropped the Switch version to focus on PC since the real-time combat was harder to optimize for Switch hardware as a solo dev.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the correct and relevant information that the user is currently targeting PC only for their game 'Starbound Chronicles', aligned with the ground truth."
+          },
+          "notes": "Must reflect platform change."
+        },
+        {
+          "test_id": "yuki_09_t3",
+          "category": "noise_resistance",
+          "query": "Do you remember the coffee incident?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User built a custom dialogue system for 'Starbound Chronicles'.",
+            "User is working on a node-based crafting system for 'Starbound Chronicles' where players discover recipes by experimenting.",
+            "User thinks the crafting UI is the hardest part and wants it to feel intuitive.",
+            "User's name is Yuki and they are an indie game developer working on a pixel art RPG called 'Starbound Chronicles' in Unity.",
+            "User's crafting system allows for predefined recipes with experimentation bonuses for rare variants."
+          ],
+          "system_answer": "I don\u2019t have any information about a coffee incident.",
+          "correct_answer": "I don't have details about that stored \u2014 it wasn't relevant to your game development work.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly stated that it does not have information about the coffee incident and retrieved no irrelevant or outdated memories."
+          },
+          "notes": "Coffee spill is noise \u2014 shouldn't be stored."
+        },
+        {
+          "test_id": "yuki_09_t4",
+          "category": "implicit_preference",
+          "query": "What tends to drive my game design decisions?",
+          "required_memories": [
+            "Switched combat style based on playtester feedback",
+            "Dropped Switch based on practical constraints",
+            "YouTube devlog community engagement"
+          ],
+          "retrieved_memories": [
+            "User is using C# to build the game.",
+            "User thinks the crafting UI is the hardest part and wants it to feel intuitive.",
+            "User is working on a node-based crafting system for 'Starbound Chronicles' where players discover recipes by experimenting.",
+            "User is currently working on an inventory system for 'Starbound Chronicles' that combines and upgrades items with a sci-fi twist, inspired by Stardew Valley's inventory system.",
+            "User's name is Yuki and they are an indie game developer working on a pixel art RPG called 'Starbound Chronicles' in Unity."
+          ],
+          "system_answer": "Your game design decisions are driven by a focus on creating an intuitive crafting UI, the desire to implement a node-based crafting system that encourages experimentation, and the inspiration you've drawn from other games like Stardew Valley for your inventory system. You aim to build a unique and engaging experience in your pixel art RPG, 'Starbound Chronicles.'",
+          "correct_answer": "Playtester feedback is your primary driver \u2014 you switched from turn-based to real-time combat because playtesters said turn-based felt too slow. You also make pragmatic scope decisions, like dropping Switch to focus on PC as a solo dev. You value iterative design informed by your community.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory",
+              "noise_retrieved"
+            ],
+            "explanation": "The answer focuses on the user's design decisions regarding the crafting UI and inventory system, but it misses critical aspects such as the shift from turn-based to real-time combat due to playtester feedback and the decision to drop Switch development. Additionally, the retrieved memories concerning user difficulties and tools used are not directly relevant to the question asked."
+          },
+          "notes": "Yuki's design process is consistently feedback-driven, demonstrated across multiple sessions."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "c1da1a3c",
+          "content": "User's name is Yuki and they are an indie game developer working on a pixel art RPG called 'Starbound Chronicles' in Unity.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "2a10dada",
+          "content": "'Starbound Chronicles' will now feature real-time combat with pause instead of turn-based combat, based on playtester feedback.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User is making a significant change to the combat system."
+          }
+        },
+        {
+          "id": "c1fa0e5d",
+          "content": "User has implemented real-time combat successfully for 'Starbound Chronicles', and playtesters love it. Now working on implementing AI for boss fights, starting with a rogue AI spaceship.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "status change from working on combat system to successfully implementing it and moving to boss fights"
+          }
+        },
+        {
+          "id": "67625df9",
+          "content": "User is using C# to build the game.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "bf921933",
+          "content": "User built a custom dialogue system for 'Starbound Chronicles'.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "dd1c2ad6",
+          "content": "User has decided to drop the Nintendo Switch version of 'Starbound Chronicles' for now and focus on PC-only development due to optimization challenges with real-time combat as a solo developer.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User's focus has shifted to PC-only, reflecting the new decision."
+          }
+        },
+        {
+          "id": "5760aefe",
+          "content": "User is currently working on an inventory system for 'Starbound Chronicles' that combines and upgrades items with a sci-fi twist, inspired by Stardew Valley's inventory system.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "221a1f95",
+          "content": "User is working on a node-based crafting system for 'Starbound Chronicles' where players discover recipes by experimenting.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "32933e75",
+          "content": "User's devlog on YouTube has reached 1000 subscribers after the pivot video received a lot of attention.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "user's subscriber count increased."
+          }
+        },
+        {
+          "id": "d606b6b9",
+          "content": "User's crafting system allows for predefined recipes with experimentation bonuses for rare variants.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "5df57e55",
+          "content": "User thinks the crafting UI is the hardest part and wants it to feel intuitive.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "7b565799",
+          "content": "User started a devlog on YouTube and has gained 200 subscribers.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "ed61f56a",
+          "content": "User designed a boss fight for 'Starbound Chronicles' with three phases: 1) long-range missiles and shields, 2) close-range energy weapons when shields are down, 3) kamikaze dive attacks at low health.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 13,
+        "entries_added": 13,
+        "entries_updated": 5,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12266,
+        "total_output_tokens": 1607
+      }
+    },
+    {
+      "user_id": "alex_10",
+      "user_name": "Alex Rivera",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "alex_10_t1",
+          "category": "contradiction_update",
+          "query": "What note-taking tool am I using now?",
+          "required_memories": [
+            "Switched from Obsidian to Notion"
+          ],
+          "retrieved_memories": [
+            "User uses Obsidian for note-taking and research organization",
+            "User is switching from Obsidian to Notion for better collaboration features while working with a research assistant.",
+            "User is switching from Obsidian to Notion for better collaboration features.",
+            "User has bought a new MacBook Pro M3 for heavier research work.",
+            "User bought a new MacBook Pro M3 for heavier research work."
+          ],
+          "system_answer": "You are currently using Notion for note-taking.",
+          "correct_answer": "You switched to Notion from Obsidian \u2014 you needed better collaboration features for working with your research assistant.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the correct memory about the switch from Obsidian to Notion, and its answer accurately reflects the current note-taking tool being used."
+          },
+          "notes": "Must return Notion, not Obsidian."
+        },
+        {
+          "test_id": "alex_10_t2",
+          "category": "cross_session",
+          "query": "What's my overall body of work on the AI environmental impact topic?",
+          "required_memories": [
+            "The Verge article on AI data center environmental impact (published, 500K views)",
+            "Follow-up on tropical climate data centers",
+            "The Atlantic piece on AI chip manufacturing (TSMC/Samsung)"
+          ],
+          "retrieved_memories": [
+            "User is focusing on water usage in their long-form piece about the environmental impact of AI data centers, as it is under-covered.",
+            "User is a freelance tech writer, currently working on a long-form piece about the environmental impact of AI data centers.",
+            "User is starting a piece for The Atlantic focusing on the environmental footprint of TSMC and Samsung in AI chip manufacturing.",
+            "User wants to compare water usage of chip fabrication vs data center operations to show the full lifecycle environmental impact.",
+            "User wants to add a section on cooling technology innovations in their article about AI data centers."
+          ],
+          "system_answer": "Your overall body of work on the AI environmental impact topic includes a long-form piece focusing on the environmental impact of AI data centers, specifically addressing the under-covered aspect of water usage. You are also starting a piece for The Atlantic that examines the environmental footprint of TSMC and Samsung in AI chip manufacturing. Additionally, you aim to compare water usage between chip fabrication and data center operations to demonstrate the full lifecycle environmental impact and plan to include a section on cooling technology innovations in your article about AI data centers.",
+          "correct_answer": "You've built a body of work on AI's environmental impact: 1) Published a piece in The Verge on data center environmental impact focusing on water usage (500K views), 2) A follow-up on water usage in tropical climate data centers, and 3) A commissioned piece for The Atlantic on AI chip manufacturing environmental footprint focusing on TSMC and Samsung.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system's answer is mostly correct, but it is missing key details regarding the user's body of work, specifically the piece published in The Verge and the follow-up on water usage in tropical climate data centers."
+          },
+          "notes": "Must synthesize the full picture across all sessions."
+        },
+        {
+          "test_id": "alex_10_t3",
+          "category": "implicit_preference",
+          "query": "How should you format information for me?",
+          "required_memories": [
+            "Prefers bullet points over paragraphs"
+          ],
+          "retrieved_memories": [
+            "User prefers concise responses in bullet points for ease of scanning",
+            "User wants to add a section on cooling technology innovations in their article about AI data centers.",
+            "User has an interview with a Google data center engineer next week.",
+            "User wants to compare water usage of chip fabrication vs data center operations to show the full lifecycle environmental impact.",
+            "User is a freelance tech writer, currently working on a long-form piece about the environmental impact of AI data centers."
+          ],
+          "system_answer": "- Use bullet points for ease of scanning.\n- Include sections on specific topics as requested, such as cooling technology innovations.\n- Focus on comparisons and data relevant to your article's theme, like water usage in chip fabrication vs. data center operations.",
+          "correct_answer": "You prefer bullet points \u2014 easy to scan, not long paragraphs.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system accurately retrieved the user's preference for bullet points and provided relevant suggestions for the article based on the latest context without contradiction or irrelevant information."
+          },
+          "notes": "Alex stated this once and reinforced it consistently. Tests preference tracking."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "9dcb5e4c",
+          "content": "User is a freelance tech writer, currently working on a long-form piece about the environmental impact of AI data centers.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "b110909e",
+          "content": "User is focusing on water usage in their long-form piece about the environmental impact of AI data centers, as it is under-covered.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "f15a90aa",
+          "content": "User has an interview with a Google data center engineer next week.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "3b2da0b8",
+          "content": "User prefers concise responses in bullet points for ease of scanning",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "535f57e8",
+          "content": "User uses Obsidian for note-taking and research organization",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0db904b4",
+          "content": "User's article for The Verge is published and received great reception with 500K views in the first week. Their editor wants a follow-up specifically on water usage in tropical climate data centers.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "User provided an update on the status of their article and next steps."
+          }
+        },
+        {
+          "id": "de6ea1ce",
+          "content": "User wants to add a section on cooling technology innovations in their article about AI data centers.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "7906c364",
+          "content": "User is switching from Obsidian to Notion for better collaboration features.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "53d9d6bb",
+          "content": "User has bought a new MacBook Pro M3 for heavier research work.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a1e06b2d",
+          "content": "User is switching from Obsidian to Notion for better collaboration features while working with a research assistant.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "80343c19",
+          "content": "User bought a new MacBook Pro M3 for heavier research work.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d5a65eb4",
+          "content": "User is starting a piece for The Atlantic focusing on the environmental footprint of TSMC and Samsung in AI chip manufacturing.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "74f30ecb",
+          "content": "User wants to compare water usage of chip fabrication vs data center operations to show the full lifecycle environmental impact.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 13,
+        "entries_added": 13,
+        "entries_updated": 2,
+        "entries_deleted": 0,
+        "llm_calls": 11,
+        "total_input_tokens": 12071,
+        "total_output_tokens": 2137
+      }
+    },
+    {
+      "user_id": "elena_11",
+      "user_name": "Elena Rossi",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "elena_11_t1",
+          "category": "contradiction_update",
+          "query": "What design tool am I using now?",
+          "required_memories": [
+            "Switched from Figma to Penpot"
+          ],
+          "retrieved_memories": [
+            "User is setting up design tokens in Penpot for a consistent color system for dark mode",
+            "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high).",
+            "User is using a purple-based color palette with primary #6C5CE7 and secondary #A29BFE for their design tokens.",
+            "User started learning Framer for creating interactive landing pages",
+            "User's design lead wants them to apply the 3-step design pattern to the account funding flow"
+          ],
+          "system_answer": "You are now using Penpot as your design tool.",
+          "correct_answer": "You switched to Penpot \u2014 your company migrated the entire design system from Figma to go fully open-source, and you're leading the migration.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately states that the user is using Penpot as their design tool, which aligns with the retrieved memory confirming the migration from Figma to Penpot."
+          },
+          "notes": "Must return Penpot, not Figma."
+        },
+        {
+          "test_id": "elena_11_t2",
+          "category": "temporal_relevance",
+          "query": "Is the April 15th launch deadline still coming up?",
+          "required_memories": [
+            "App has launched, deadline passed"
+          ],
+          "retrieved_memories": [
+            "User's neobank app is live as of April 15th, 2023, targeting Gen Z, focusing on the onboarding flow and conducting user research with a panel of 20 beta testers every two weeks.",
+            "User's design lead wants them to apply the 3-step design pattern to the account funding flow",
+            "User started learning Framer for creating interactive landing pages",
+            "User's office coffee machine broke, adding to their stress.",
+            "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high)."
+          ],
+          "system_answer": "Yes, the launch deadline for your neobank app is April 15th, 2023, and it is already live.",
+          "correct_answer": "No, the April 15th launch already happened \u2014 the app is live now!",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer correctly states that the April 15th launch deadline has passed and that the app is live, which aligns with the ground truth information."
+          },
+          "notes": "Must recognize the deadline passed and app launched."
+        },
+        {
+          "test_id": "elena_11_t3",
+          "category": "simple_recall",
+          "query": "What was the improvement I got on the onboarding drop-off rate?",
+          "required_memories": [
+            "Reduced ID verification drop-off from 40% to 18%"
+          ],
+          "retrieved_memories": [
+            "User redesigned the ID verification step of the neobank app, breaking it into 3 smaller steps with progress indicators, reducing drop-off from 40% to 18%.",
+            "User started learning Framer for creating interactive landing pages",
+            "User's neobank app is live as of April 15th, 2023, targeting Gen Z, focusing on the onboarding flow and conducting user research with a panel of 20 beta testers every two weeks.",
+            "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high).",
+            "User's design lead wants them to apply the 3-step design pattern to the account funding flow"
+          ],
+          "system_answer": "You reduced the onboarding drop-off rate from 40% to 18% by redesigning the ID verification step of the neobank app.",
+          "correct_answer": "You reduced the identity verification drop-off from 40% to 18% by breaking it into 3 smaller steps with progress indicators.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately reflects the ground truth regarding the reduction in the ID verification drop-off rate from 40% to 18% and includes relevant details about the redesign process."
+          },
+          "notes": "Straightforward numeric recall from session 2."
+        },
+        {
+          "test_id": "elena_11_t4",
+          "category": "implicit_preference",
+          "query": "What's my approach to validating design decisions?",
+          "required_memories": [
+            "User research every two weeks",
+            "Panel of 20 beta testers",
+            "Measures drop-off rates",
+            "Data-driven design improvements"
+          ],
+          "retrieved_memories": [
+            "User's design lead wants them to apply the 3-step design pattern to the account funding flow",
+            "User is setting up design tokens in Penpot for a consistent color system for dark mode",
+            "User is using a purple-based color palette with primary #6C5CE7 and secondary #A29BFE for their design tokens.",
+            "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high).",
+            "User redesigned the ID verification step of the neobank app, breaking it into 3 smaller steps with progress indicators, reducing drop-off from 40% to 18%."
+          ],
+          "system_answer": "Your approach to validating design decisions likely involves breaking down steps, as demonstrated by your redesign of the ID verification step, where you reduced drop-off significantly by applying a clear structure. Additionally, you are focusing on consistency by setting up design tokens in Penpot, which helps ensure that your design decisions are in line with a cohesive color system.",
+          "correct_answer": "You're very data-driven \u2014 you run user research every two weeks with a panel of 20 beta testers, measure specific metrics like drop-off rates, and use that data to validate design changes. Your identity verification redesign was driven by the 40% drop-off metric.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system's answer correctly identifies the redesign of the ID verification step and its impact on drop-off rates. However, it misses key details about the user's data-driven approach, such as the regular user research with beta testers and specific metrics like drop-off rates being used to validate design decisions."
+          },
+          "notes": "Elena's data-driven approach is demonstrated through her process (bi-weekly testing, metrics tracking) rather than explicitly stated as a preference."
+        },
+        {
+          "test_id": "elena_11_t5",
+          "category": "noise_resistance",
+          "query": "Do you remember about the coffee machine at the office?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User's office coffee machine broke, adding to their stress.",
+            "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high).",
+            "User is setting up design tokens in Penpot for a consistent color system for dark mode",
+            "User's neobank app is live as of April 15th, 2023, targeting Gen Z, focusing on the onboarding flow and conducting user research with a panel of 20 beta testers every two weeks.",
+            "User redesigned the ID verification step of the neobank app, breaking it into 3 smaller steps with progress indicators, reducing drop-off from 40% to 18%."
+          ],
+          "system_answer": "Yes, I remember that your office coffee machine broke, which added to your stress.",
+          "correct_answer": "I don't have that stored \u2014 that was just a casual aside, not something relevant to remember.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly recalled that the user's office coffee machine broke, which aligns with the user's stress. The information is up-to-date and relevant to the question asked."
+          },
+          "notes": "Office coffee machine breaking is noise \u2014 completely irrelevant to design work."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "570dbdb5",
+          "content": "User is now fully migrated from Figma to Penpot, leading the migration of their design system with 200+ components to rebuild (importance: high).",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User has completed the transition to Penpot."
+          }
+        },
+        {
+          "id": "034be5bf",
+          "content": "User's neobank app is live as of April 15th, 2023, targeting Gen Z, focusing on the onboarding flow and conducting user research with a panel of 20 beta testers every two weeks.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "event has passed, recording outcome"
+          }
+        },
+        {
+          "id": "256d7429",
+          "content": "User redesigned the ID verification step of the neobank app, breaking it into 3 smaller steps with progress indicators, reducing drop-off from 40% to 18%.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "The drop-off rate improved, recording the new state."
+          }
+        },
+        {
+          "id": "993264df",
+          "content": "User's office coffee machine broke, adding to their stress.",
+          "metadata": {
+            "importance": "low",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "798d4c46",
+          "content": "User's design lead wants them to apply the 3-step design pattern to the account funding flow",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "1edea4de",
+          "content": "User started learning Framer for creating interactive landing pages",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0efa7440",
+          "content": "User is setting up design tokens in Penpot for a consistent color system for dark mode",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "49f14fc5",
+          "content": "User is using a purple-based color palette with primary #6C5CE7 and secondary #A29BFE for their design tokens.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 8,
+        "entries_added": 8,
+        "entries_updated": 4,
+        "entries_deleted": 0,
+        "llm_calls": 10,
+        "total_input_tokens": 10744,
+        "total_output_tokens": 1339
+      }
+    },
+    {
+      "user_id": "omar_12",
+      "user_name": "Omar Hassan",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "omar_12_t1",
+          "category": "consolidation",
+          "query": "Can you give me a summary of how the security incident evolved?",
+          "required_memories": [
+            "Suspicious outbound traffic from workstations",
+            "Traced to compromised npm package",
+            "Patient metadata exposed (not PHI)",
+            "5 total affected workstations",
+            "Now implementing package signing and lockfile auditing"
+          ],
+          "retrieved_memories": [
+            "User is now leading the vulnerability management program at their healthcare company.",
+            "User's incident response rotation ended last week, now back to regular duties.",
+            "User is overseeing the remediation from the npm incident, implementing package signing and lockfile auditing across all projects.",
+            "User is presenting a security policy for npm package vetting to their CTO next week.",
+            "User had a frustrating subway commute due to signal problems on the Red Line."
+          ],
+          "system_answer": "I'm sorry, but I don't have specific details on how the security incident evolved. I only know that you are overseeing the remediation from the npm incident and implementing measures like package signing and lockfile auditing across all projects.",
+          "correct_answer": "The incident started with suspicious outbound traffic from workstations. You traced it to a compromised npm package in internal tooling that was siphoning patient metadata (not PHI). 5 total workstations were affected. You contained it, and now you're implementing package signing and lockfile auditing as remediation.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "missing_memory",
+              "noise_retrieved"
+            ],
+            "explanation": "The system did not retrieve the key details about how the incident evolved, such as the suspicious outbound traffic and the specific compromise of the npm package. Instead, it focused on the user's current role and tasks, which are not relevant to the incident summary."
+          },
+          "notes": "Must consolidate the evolving incident across sessions 1-3."
+        },
+        {
+          "test_id": "omar_12_t2",
+          "category": "temporal_relevance",
+          "query": "Am I still on incident response rotation?",
+          "required_memories": [
+            "Incident response rotation ended"
+          ],
+          "retrieved_memories": [
+            "User's incident response rotation ended last week, now back to regular duties.",
+            "User is now leading the vulnerability management program at their healthcare company.",
+            "User is overseeing the remediation from the npm incident, implementing package signing and lockfile auditing across all projects.",
+            "User is presenting a security policy for npm package vetting to their CTO next week.",
+            "User had a frustrating subway commute due to signal problems on the Red Line."
+          ],
+          "system_answer": "No, your incident response rotation ended last week, and you are now back to regular duties.",
+          "correct_answer": "No, your incident response rotation ended. You're now back to regular duties and leading the vulnerability management program.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly retrieved the relevant memory that the user's incident response rotation ended last week and provided an accurate answer based on up-to-date information."
+          },
+          "notes": "Must recognize the rotation ended."
+        },
+        {
+          "test_id": "omar_12_t3",
+          "category": "noise_resistance",
+          "query": "Do you remember about my subway commute problems?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User had a frustrating subway commute due to signal problems on the Red Line.",
+            "User's incident response rotation ended last week, now back to regular duties.",
+            "User is overseeing the remediation from the npm incident, implementing package signing and lockfile auditing across all projects.",
+            "User is now leading the vulnerability management program at their healthcare company.",
+            "User is presenting a security policy for npm package vetting to their CTO next week."
+          ],
+          "system_answer": "Yes, you had a frustrating subway commute due to signal problems on the Red Line.",
+          "correct_answer": "I don't have that stored as a relevant memory \u2014 it was just a passing mention about signal problems on the Red Line.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the relevant memory regarding the user's subway commute and provided a correct response based on the ground truth."
+          },
+          "notes": "Subway complaint is noise \u2014 should not be stored/retrieved."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "1cb4f420",
+          "content": "User is now leading the vulnerability management program at their healthcare company.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User's role has changed with the new promotion."
+          }
+        },
+        {
+          "id": "6e46790e",
+          "content": "User's incident response rotation ended last week, now back to regular duties.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User's status has changed."
+          }
+        },
+        {
+          "id": "0e17c3bb",
+          "content": "User had a frustrating subway commute due to signal problems on the Red Line.",
+          "metadata": {
+            "importance": "low",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "f1de509a",
+          "content": "User is overseeing the remediation from the npm incident, implementing package signing and lockfile auditing across all projects.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "Detail on user's current projects."
+          }
+        },
+        {
+          "id": "9f3bd14d",
+          "content": "User is presenting a security policy for npm package vetting to their CTO next week.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "58274cac",
+          "content": "User's current npm package approval process is non-existent, allowing developers to install any packages they want",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 6,
+        "entries_added": 6,
+        "entries_updated": 5,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9193,
+        "total_output_tokens": 1427
+      }
+    },
+    {
+      "user_id": "lily_13",
+      "user_name": "Lily Zhang",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "lily_13_t1",
+          "category": "contradiction_update",
+          "query": "What model am I using for my thesis work?",
+          "required_memories": [
+            "Using XLM-R (pivoted from MAML)"
+          ],
+          "retrieved_memories": [
+            "User is submitting their work to EMNLP.",
+            "User is a second-year PhD student in NLP at Stanford",
+            "User's advisor is Prof. Martinez",
+            "User is extending their research on cross-lingual transfer learning to include Amharic and Hausa, in addition to Swahili and another language, for their EMNLP submission.",
+            "User has completed their TA responsibilities for the quarter and is now focusing more on their research."
+          ],
+          "system_answer": "I don't have information about the specific model you are using for your thesis work.",
+          "correct_answer": "You're using XLM-R for cross-lingual transfer learning. You originally used MAML for few-shot learning but your advisor suggested pivoting to cross-lingual transfer.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system failed to retrieve the necessary memory about using XLM-R for the thesis, resulting in an incorrect answer."
+          },
+          "notes": "Must return XLM-R, not MAML."
+        },
+        {
+          "test_id": "lily_13_t2",
+          "category": "consolidation",
+          "query": "How have my NER results evolved across my experiments?",
+          "required_memories": [
+            "First experiment: 42% F1 with MAML",
+            "After augmentation: 58% F1",
+            "Cross-lingual transfer: 71% F1"
+          ],
+          "retrieved_memories": [
+            "User's NER model achieved 71% F1 score on Swahili with cross-lingual transfer from English and French, a significant improvement from the previous 58%.",
+            "User is a second-year PhD student in NLP at Stanford",
+            "User is extending their research on cross-lingual transfer learning to include Amharic and Hausa, in addition to Swahili and another language, for their EMNLP submission.",
+            "User is submitting their work to EMNLP.",
+            "User is researching few-shot learning for low-resource languages"
+          ],
+          "system_answer": "Your NER results have shown significant improvement, with your model achieving a 71% F1 score on Swahili after cross-lingual transfer from English and French, up from a previous score of 58%.",
+          "correct_answer": "Your NER results have steadily improved: started at 42% F1 with MAML few-shot learning, improved to 58% with data augmentation, then jumped to 71% F1 using XLM-R cross-lingual transfer from English+French to Swahili.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The answer correctly states that the NER results improved to 71% F1 with cross-lingual transfer from English and French, and mentions the previous score of 58%. However, it omits the starting score of 42% F1 with MAML few-shot learning, which is a key detail in the evolution of the results."
+          },
+          "notes": "Must consolidate results trajectory across all 3 sessions."
+        },
+        {
+          "test_id": "lily_13_t3",
+          "category": "temporal_relevance",
+          "query": "Am I still TAing this quarter?",
+          "required_memories": [
+            "TAing ended (quarter over)"
+          ],
+          "retrieved_memories": [
+            "User has completed their TA responsibilities for the quarter and is now focusing more on their research.",
+            "User's advisor is Prof. Martinez",
+            "User is a second-year PhD student in NLP at Stanford",
+            "User is extending their research on cross-lingual transfer learning to include Amharic and Hausa, in addition to Swahili and another language, for their EMNLP submission.",
+            "User is submitting their work to EMNLP."
+          ],
+          "system_answer": "No, you have completed your TA responsibilities for the quarter and are now focusing more on your research.",
+          "correct_answer": "No, you finished TAing CS224N \u2014 the quarter ended.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is factually correct and reflects the current status of the user's TA responsibilities, aligning with the ground truth that the user finished TAing and is now focused on research."
+          },
+          "notes": "Must recognize the TA assignment ended."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "bb73ed03",
+          "content": "User is a second-year PhD student in NLP at Stanford",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a3401884",
+          "content": "User's advisor is Prof. Martinez",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d2cb1780",
+          "content": "User is researching few-shot learning for low-resource languages",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "556fb73d",
+          "content": "User is extending their research on cross-lingual transfer learning to include Amharic and Hausa, in addition to Swahili and another language, for their EMNLP submission.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "User is expanding the scope of their research for submission."
+          }
+        },
+        {
+          "id": "49995554",
+          "content": "User's NER model achieved 71% F1 score on Swahili with cross-lingual transfer from English and French, a significant improvement from the previous 58%.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "new results have surpassed previous metrics"
+          }
+        },
+        {
+          "id": "b5fcf859",
+          "content": "User has completed their TA responsibilities for the quarter and is now focusing more on their research.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "user has finished TA duties"
+          }
+        },
+        {
+          "id": "412d820b",
+          "content": "User is submitting their work to EMNLP.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "96d04f6e",
+          "content": "User's contribution includes a language-adaptive fine-tuning strategy that selects source languages based on typological similarity.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 8,
+        "entries_added": 8,
+        "entries_updated": 5,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9519,
+        "total_output_tokens": 1255
+      }
+    },
+    {
+      "user_id": "thomas_14",
+      "user_name": "Thomas Okonkwo",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "thomas_14_t1",
+          "category": "contradiction_update",
+          "query": "What cloud provider are we using now?",
+          "required_memories": [
+            "Migrating from AWS to GCP"
+          ],
+          "retrieved_memories": [
+            "User's company has fully migrated to GCP, moving 30 of 50 services to GKE with AWS being decommissioned by the end of the quarter.",
+            "User migrated 5 services to GKE as a proof of concept with a 30% cost saving for the same workload.",
+            "User's team is getting buy-in from leadership to fully migrate services to GKE",
+            "User's team is migrating event streaming from Kinesis to Pub/Sub and data warehouse from Redshift to BigQuery, expected to be completed in 6 weeks.",
+            "User is a DevOps engineer at a logistics company in Lagos"
+          ],
+          "system_answer": "You are now using Google Cloud Platform (GCP) after fully migrating and decommissioning AWS.",
+          "correct_answer": "You're migrating to GCP \u2014 already moved 30 of 50 services from AWS EKS to GKE, with full AWS decommission by end of quarter.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer correctly states that the user is now using Google Cloud Platform (GCP) after migrating from AWS, which aligns with the ground truth and does not contain outdated information."
+          },
+          "notes": "Must reflect the GCP migration, not the original AWS setup."
+        },
+        {
+          "test_id": "thomas_14_t2",
+          "category": "simple_recall",
+          "query": "How many microservices do we run?",
+          "required_memories": [
+            "50 microservices"
+          ],
+          "retrieved_memories": [
+            "User migrated 5 services to GKE as a proof of concept with a 30% cost saving for the same workload.",
+            "User processes about 10 million shipment tracking events daily.",
+            "User's company has fully migrated to GCP, moving 30 of 50 services to GKE with AWS being decommissioned by the end of the quarter.",
+            "User has 12 Kinesis streams with a peak of 500K events per hour, requiring zero downtime during migration to Pub/Sub.",
+            "User's team is getting buy-in from leadership to fully migrate services to GKE"
+          ],
+          "system_answer": "You have migrated 30 of 50 services to GKE, so you are currently running 50 microservices.",
+          "correct_answer": "You run about 50 microservices. 30 are already migrated to GKE and the remaining 20 are in progress.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly stated that the user is currently running 50 microservices and specified that 30 have been migrated to GKE, aligning with the ground truth answer."
+          },
+          "notes": "Basic fact recall."
+        },
+        {
+          "test_id": "thomas_14_t3",
+          "category": "noise_resistance",
+          "query": "Do you remember about the traffic from Lekki?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User is a DevOps engineer at a logistics company in Lagos",
+            "User follows the Super Eagles and is interested in their matches.",
+            "User processes about 10 million shipment tracking events daily.",
+            "User migrated 5 services to GKE as a proof of concept with a 30% cost saving for the same workload.",
+            "User's team is migrating event streaming from Kinesis to Pub/Sub and data warehouse from Redshift to BigQuery, expected to be completed in 6 weeks."
+          ],
+          "system_answer": "I don't have any specific memories about traffic from Lekki. My stored information focuses on your professional background and interests.",
+          "correct_answer": "I don't have that stored as a relevant memory \u2014 that was just a passing comment about your commute.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system accurately stated that it does not have specific memories regarding traffic from Lekki, focusing instead on the user's professional background and interests, which aligns with the ground truth answer."
+          },
+          "notes": "Traffic complaint is noise."
+        },
+        {
+          "test_id": "thomas_14_t4",
+          "category": "consolidation",
+          "query": "How has our cloud cost situation evolved since we started the migration?",
+          "required_memories": [
+            "AWS bill was $85K/month",
+            "GCP PoC showed 30% cost savings",
+            "30 of 50 services migrated to GKE",
+            "Remaining: Kinesis to Pub/Sub, Redshift to BigQuery"
+          ],
+          "retrieved_memories": [
+            "User migrated 5 services to GKE as a proof of concept with a 30% cost saving for the same workload.",
+            "User's company has fully migrated to GCP, moving 30 of 50 services to GKE with AWS being decommissioned by the end of the quarter.",
+            "User's team is getting buy-in from leadership to fully migrate services to GKE",
+            "User's team is migrating event streaming from Kinesis to Pub/Sub and data warehouse from Redshift to BigQuery, expected to be completed in 6 weeks.",
+            "User has 12 Kinesis streams with a peak of 500K events per hour, requiring zero downtime during migration to Pub/Sub."
+          ],
+          "system_answer": "Since you started the migration, your cloud cost situation has improved significantly. Initially, the proof of concept demonstrated a 30% cost saving for the same workload when migrating 5 services to GKE. Following that, your company has now fully migrated to GCP, moving 30 of 50 services to GKE, which likely continues to contribute to cost efficiencies as AWS is being decommissioned. While specific cost details post-migration aren't provided, the progression suggests an ongoing trend of reduced costs aligned with your migration efforts.",
+          "correct_answer": "Your AWS bill was $85K/month. The GCP proof of concept showed about 30% cost savings for equivalent workloads. You've migrated 30 of 50 services to GKE so far, with the remaining work being Kinesis to Pub/Sub and Redshift to BigQuery migrations. AWS decommission is targeted for end of quarter.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "stale_memory",
+              "missing_memory"
+            ],
+            "explanation": "The system's answer incorrectly states that 5 services were migrated to GKE during the proof of concept, which is outdated information. It also does not mention the AWS bill of $85K/month. The key detail of the 30 services migrated to GKE is included, but it misses important current information regarding the remaining services to be migrated."
+          },
+          "notes": "Must consolidate cost and migration progress across sessions 1-3."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "8844805e",
+          "content": "User's name is Thomas",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0b4b5790",
+          "content": "User is a DevOps engineer at a logistics company in Lagos",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a8b0c627",
+          "content": "User's company has fully migrated to GCP, moving 30 of 50 services to GKE with AWS being decommissioned by the end of the quarter.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "user provided an update on the migration status"
+          }
+        },
+        {
+          "id": "cce53667",
+          "content": "User processes about 10 million shipment tracking events daily.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "bd7308ec",
+          "content": "User follows the Super Eagles and is interested in their matches.",
+          "metadata": {
+            "importance": "low",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "95a44fdb",
+          "content": "User migrated 5 services to GKE as a proof of concept with a 30% cost saving for the same workload.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "dee6d318",
+          "content": "User's team is getting buy-in from leadership to fully migrate services to GKE",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "d0577416",
+          "content": "User's team is migrating event streaming from Kinesis to Pub/Sub and data warehouse from Redshift to BigQuery, expected to be completed in 6 weeks.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "8723670e",
+          "content": "User has 12 Kinesis streams with a peak of 500K events per hour, requiring zero downtime during migration to Pub/Sub.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 9,
+        "entries_added": 9,
+        "entries_updated": 1,
+        "entries_deleted": 0,
+        "llm_calls": 10,
+        "total_input_tokens": 10579,
+        "total_output_tokens": 1477
+      }
+    },
+    {
+      "user_id": "sophie_15",
+      "user_name": "Sophie Martin",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "sophie_15_t1",
+          "category": "cross_session",
+          "query": "What's the full picture of how our product roadmap has evolved?",
+          "required_memories": [
+            "Original Q1 priorities: dashboard, teacher reporting, API",
+            "Dashboard shipped, teacher reporting pushed to Q2",
+            "Custom district analytics became top priority",
+            "District module now in beta with 10 schools",
+            "API v1 must ship by end of Q2"
+          ],
+          "retrieved_memories": [
+            "User plans to ship API v1 by the end of Q2 and is splitting the team into 4 for the district module and 3 for the API.",
+            "User's team has grown to 7 engineers.",
+            "User is drafting user stories for API endpoints focused on student data, class performance, and attendance.",
+            "User's name is Sophie and she is a product manager at an edtech company in Paris, managing a learning analytics platform used by 200+ schools.",
+            "User's big client request is for a district with 50 schools wanting a custom analytics module, which is now the top priority"
+          ],
+          "system_answer": "The product roadmap has evolved with a focus on developing API v1, set to ship by the end of Q2. You are splitting the team into two groups: one with 4 engineers for the district module and another with 3 engineers for the API. The priority has shifted towards fulfilling a big client request for a district with 50 schools that is seeking a custom analytics module. Additionally, you are drafting user stories for API endpoints that concentrate on student data, class performance, and attendance. Overall, the roadmap reflects a growing emphasis on district-level analytics and solid API development to support your learning analytics platform used by over 200 schools.",
+          "correct_answer": "Your roadmap evolved significantly: Original Q1 priorities were engagement dashboard, teacher reporting, and API. The dashboard shipped successfully. Then a big district client (50 schools) shifted priorities \u2014 custom analytics module became top priority, pushing teacher reporting to Q2. The district module is now in beta with 10 schools. API v1 is targeted for end of Q2, with 3 engineers working on it.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "stale_memory"
+            ],
+            "explanation": "The system mentioned splitting the team into two groups for the district module and API, with 4 engineers for the district module. However, the ground truth states that there are 3 engineers working on API v1, not 3 for API and 4 for the district module, indicating a misunderstanding of the team structure. The answer correctly captures the focus on the custom analytics module and the API's timeline but presents outdated information regarding team splits."
+          },
+          "notes": "Must synthesize roadmap evolution across sessions 1-3."
+        },
+        {
+          "test_id": "sophie_15_t2",
+          "category": "contradiction_update",
+          "query": "How big is my team now?",
+          "required_memories": [
+            "Team grew from 5 to 7 (hired 2 engineers)"
+          ],
+          "retrieved_memories": [
+            "User's team has grown to 7 engineers.",
+            "User's big client request is for a district with 50 schools wanting a custom analytics module, which is now the top priority",
+            "User plans to ship API v1 by the end of Q2 and is splitting the team into 4 for the district module and 3 for the API.",
+            "Client request includes district-wide aggregation with school-level heatmaps for the custom analytics module.",
+            "User plans to push teacher reporting to Q2 due to the priority of the custom analytics module for the large client request."
+          ],
+          "system_answer": "Your team has grown to 7 engineers.",
+          "correct_answer": "Your team is now 7 people \u2014 you originally had 4 engineers plus yourself, then hired 2 more. Currently split 4 on the district module and 3 on the API.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately reflects the current size of the team, which is 7 engineers, and is consistent with the most up-to-date information retrieved from memory."
+          },
+          "notes": "Must return updated team size of 7, not original 5."
+        },
+        {
+          "test_id": "sophie_15_t3",
+          "category": "implicit_preference",
+          "query": "How do I like my information presented?",
+          "required_memories": [
+            "Prefers short direct explanations",
+            "No preambles"
+          ],
+          "retrieved_memories": [
+            "User prefers brief and direct answers without lengthy explanations.",
+            "User is drafting user stories for API endpoints focused on student data, class performance, and attendance.",
+            "User's big client request is for a district with 50 schools wanting a custom analytics module, which is now the top priority",
+            "Client request includes district-wide aggregation with school-level heatmaps for the custom analytics module.",
+            "User's name is Sophie and she is a product manager at an edtech company in Paris, managing a learning analytics platform used by 200+ schools."
+          ],
+          "system_answer": "You prefer brief and direct answers without lengthy explanations.",
+          "correct_answer": "You want things short and direct \u2014 no long preambles. You told me to keep explanations concise.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the relevant memory about preferring brief and direct answers and delivered an answer that matches the ground truth accurately."
+          },
+          "notes": "Sophie explicitly stated this preference once in session 1."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "34ec55e8",
+          "content": "User's name is Sophie and she is a product manager at an edtech company in Paris, managing a learning analytics platform used by 200+ schools.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "38e74f68",
+          "content": "User prefers brief and direct answers without lengthy explanations.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "71a8e85f",
+          "content": "User's big client request is for a district with 50 schools wanting a custom analytics module, which is now the top priority",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "64657761",
+          "content": "User plans to push teacher reporting to Q2 due to the priority of the custom analytics module for the large client request.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "reflecting the new project priority"
+          }
+        },
+        {
+          "id": "ae93eafc",
+          "content": "User's team has grown to 7 engineers.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "f4e58fa4",
+          "content": "Client request includes district-wide aggregation with school-level heatmaps for the custom analytics module.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "70ec3bc5",
+          "content": "The district module is in beta, currently testing with 10 schools.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6ccfaf8b",
+          "content": "User plans to ship API v1 by the end of Q2 and is splitting the team into 4 for the district module and 3 for the API.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "aba5b842",
+          "content": "User is drafting user stories for API endpoints focused on student data, class performance, and attendance.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6b8764de",
+          "content": "User needs API endpoints for class performance and attendance alongside student data.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 10,
+        "entries_added": 10,
+        "entries_updated": 1,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9353,
+        "total_output_tokens": 1168
+      }
+    },
+    {
+      "user_id": "raj_16",
+      "user_name": "Raj Krishnamurthy",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "raj_16_t1",
+          "category": "contradiction_update",
+          "query": "What framework am I using for our app?",
+          "required_memories": [
+            "Switched from React Native to Flutter"
+          ],
+          "retrieved_memories": [
+            "User's name is Raj, a mobile developer at a health-tech startup in Bangalore, building a patient engagement app using React Native.",
+            "User is evaluating WebRTC packages for Flutter to implement video calling for the telemedicine feature in their app.",
+            "User is experiencing noticeable frame drops on the medication tracker screen in their app, but it is expected to improve with the rewrite in Flutter.",
+            "User's Flutter app launched last week and has already hit 22K MAU, up from 15K with the old app. The Play Store rating improved from 3.8 to 4.6 stars.",
+            "User's team is planning to add a telemedicine video call feature to the app."
+          ],
+          "system_answer": "You are using Flutter for your app.",
+          "correct_answer": "You're using Flutter now. You switched from React Native because of performance issues on older Android devices \u2014 the rewrite launched and is doing great.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system correctly identified that the user is using Flutter for the app, which aligns with the ground truth answer and reflects the most recent update. No outdated or irrelevant information was retrieved."
+          },
+          "notes": "Must return Flutter, not React Native."
+        },
+        {
+          "test_id": "raj_16_t2",
+          "category": "consolidation",
+          "query": "How have our app metrics changed since the rewrite?",
+          "required_memories": [
+            "MAU: 15K to 22K",
+            "Play Store rating: 3.8 to 4.6",
+            "Crash rate: 2.1% to 0.3%"
+          ],
+          "retrieved_memories": [
+            "User's Flutter app launched last week and has already hit 22K MAU, up from 15K with the old app. The Play Store rating improved from 3.8 to 4.6 stars.",
+            "User is experiencing noticeable frame drops on the medication tracker screen in their app, but it is expected to improve with the rewrite in Flutter.",
+            "User's name is Raj, a mobile developer at a health-tech startup in Bangalore, building a patient engagement app using React Native.",
+            "User is evaluating WebRTC packages for Flutter to implement video calling for the telemedicine feature in their app.",
+            "User's team is planning to add a telemedicine video call feature to the app."
+          ],
+          "system_answer": "Since the rewrite, your app has improved significantly, hitting 22K monthly active users (MAU) compared to 15K with the old app. Additionally, the Play Store rating has increased from 3.8 to 4.6 stars.",
+          "correct_answer": "The Flutter rewrite had a big impact: MAU grew from 15K to 22K, Play Store rating went from 3.8 to 4.6 stars, and crash rate dropped from 2.1% to 0.3%.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is factually correct and uses the most up-to-date information regarding MAU and Play Store rating improvements since the rewrite."
+          },
+          "notes": "Must consolidate before/after metrics across sessions."
+        },
+        {
+          "test_id": "raj_16_t3",
+          "category": "simple_recall",
+          "query": "What are the main features of our app?",
+          "required_memories": [
+            "Appointment booking",
+            "Medication reminders",
+            "Planning telemedicine video calls"
+          ],
+          "retrieved_memories": [
+            "User's team is planning to add a telemedicine video call feature to the app.",
+            "User's Flutter app launched last week and has already hit 22K MAU, up from 15K with the old app. The Play Store rating improved from 3.8 to 4.6 stars.",
+            "User's name is Raj, a mobile developer at a health-tech startup in Bangalore, building a patient engagement app using React Native.",
+            "User is experiencing noticeable frame drops on the medication tracker screen in their app, but it is expected to improve with the rewrite in Flutter.",
+            "User is evaluating WebRTC packages for Flutter to implement video calling for the telemedicine feature in their app."
+          ],
+          "system_answer": "The main features of your app include a medication tracker and a telemedicine video call feature that your team is planning to add.",
+          "correct_answer": "Your patient engagement app has appointment booking, medication reminders, and you're now adding a telemedicine video call feature.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The answer mentions a telemedicine video call feature that is being planned but misses the key detail of appointment booking, which is also a main feature of the app as per the ground truth."
+          },
+          "notes": "Basic feature recall."
+        },
+        {
+          "test_id": "raj_16_t4",
+          "category": "temporal_relevance",
+          "query": "Is the Flutter rewrite still in progress?",
+          "required_memories": [
+            "Flutter app launched",
+            "22K MAU",
+            "Play Store rating 4.6"
+          ],
+          "retrieved_memories": [
+            "User is experiencing noticeable frame drops on the medication tracker screen in their app, but it is expected to improve with the rewrite in Flutter.",
+            "User's Flutter app launched last week and has already hit 22K MAU, up from 15K with the old app. The Play Store rating improved from 3.8 to 4.6 stars.",
+            "User is evaluating WebRTC packages for Flutter to implement video calling for the telemedicine feature in their app.",
+            "User's name is Raj, a mobile developer at a health-tech startup in Bangalore, building a patient engagement app using React Native.",
+            "User's team is planning to add a telemedicine video call feature to the app."
+          ],
+          "system_answer": "The retrieved memories do not provide specific information about the current status of the Flutter rewrite. Therefore, I cannot confirm if it is still in progress.",
+          "correct_answer": "No, the Flutter rewrite is done! The app launched and is performing great \u2014 22K MAU, 4.6 stars on Play Store, 0.3% crash rate. You're now working on adding telemedicine video calls.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The answer provided is factually correct based on the ground truth, which states that the Flutter rewrite is done and the app has successfully launched with positive metrics."
+          },
+          "notes": "Must recognize the rewrite completed and app launched. Stale info would be '40% done'."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "3560fd87",
+          "content": "User's name is Raj, a mobile developer at a health-tech startup in Bangalore, building a patient engagement app using React Native.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "b1080dce",
+          "content": "User is experiencing noticeable frame drops on the medication tracker screen in their app, but it is expected to improve with the rewrite in Flutter.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "linking previous frame drop issue to the current work on the medication tracker in Flutter"
+          }
+        },
+        {
+          "id": "f239898f",
+          "content": "User's Flutter app launched last week and has already hit 22K MAU, up from 15K with the old app. The Play Store rating improved from 3.8 to 4.6 stars.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": "event has occurred, recording outcome and current metrics"
+          }
+        },
+        {
+          "id": "6394736d",
+          "content": "User's team is planning to add a telemedicine video call feature to the app.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "cb94bf80",
+          "content": "User is evaluating WebRTC packages for Flutter to implement video calling for the telemedicine feature in their app.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "cff3b394",
+          "content": "User prioritizes reliability in video calling for telemedicine feature, with a flexible budget.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 6,
+        "entries_added": 6,
+        "entries_updated": 2,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9166,
+        "total_output_tokens": 1063
+      }
+    },
+    {
+      "user_id": "hannah_17",
+      "user_name": "Hannah Kim",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "hannah_17_t1",
+          "category": "temporal_relevance",
+          "query": "Is the IRB amendment still pending?",
+          "required_memories": [
+            "IRB amendment was approved"
+          ],
+          "retrieved_memories": [
+            "IRB amendment approved to include ages 55-80, expected to increase recruitment speed significantly.",
+            "User has recruited 120 participants for the Phase II trial, screening phase is complete, and treatment phase will begin next week with randomization complete.",
+            "User's Phase II trial has a 12-week treatment period with bi-weekly assessments",
+            "User's name is Hannah and she is a clinical research coordinator at Johns Hopkins, running a Phase II trial for a new Alzheimer's drug.",
+            "User needs a data collection schedule template to track cognitive assessments, blood work, and adverse events for the Phase II trial"
+          ],
+          "system_answer": "No, the IRB amendment is not pending; it has been approved to include ages 55-80.",
+          "correct_answer": "No, the IRB amendment was approved. You expanded inclusion criteria to ages 55-80 and it helped you reach your enrollment target.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is correct and aligns with the ground truth information that the IRB amendment was approved. It retrieved relevant memories accurately and provided up-to-date information."
+          },
+          "notes": "Must recognize the IRB status changed from pending to approved."
+        },
+        {
+          "test_id": "hannah_17_t2",
+          "category": "implicit_preference",
+          "query": "How do I prefer you format your responses?",
+          "required_memories": [
+            "Prefers numbered lists for action items"
+          ],
+          "retrieved_memories": [
+            "User needs a data collection schedule template to track cognitive assessments, blood work, and adverse events for the Phase II trial",
+            "User's Phase II trial has a 12-week treatment period with bi-weekly assessments",
+            "User's name is Hannah and she is a clinical research coordinator at Johns Hopkins, running a Phase II trial for a new Alzheimer's drug.",
+            "IRB amendment approved to include ages 55-80, expected to increase recruitment speed significantly.",
+            "User has recruited 120 participants for the Phase II trial, screening phase is complete, and treatment phase will begin next week with randomization complete."
+          ],
+          "system_answer": "I don\u2019t have information on how you prefer responses to be formatted.",
+          "correct_answer": "You prefer numbered lists \u2014 they help you track action items.",
+          "evaluation": {
+            "rating": "incorrect",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system missed the memory stating the user prefers numbered lists for action items, which directly answers the test question. Therefore, the response is incomplete and does not reflect the user's preferences."
+          },
+          "notes": "Stated preference for numbered lists."
+        },
+        {
+          "test_id": "hannah_17_t3",
+          "category": "cross_session",
+          "query": "What's the full timeline of our trial enrollment?",
+          "required_memories": [
+            "Started with 43 participants",
+            "IRB amendment approved, expanded age range",
+            "Jumped to 67 after approval",
+            "Reached 120, moved to treatment phase"
+          ],
+          "retrieved_memories": [
+            "User has recruited 120 participants for the Phase II trial, screening phase is complete, and treatment phase will begin next week with randomization complete.",
+            "User's Phase II trial has a 12-week treatment period with bi-weekly assessments",
+            "User needs a data collection schedule template to track cognitive assessments, blood work, and adverse events for the Phase II trial",
+            "User's name is Hannah and she is a clinical research coordinator at Johns Hopkins, running a Phase II trial for a new Alzheimer's drug.",
+            "IRB amendment approved to include ages 55-80, expected to increase recruitment speed significantly."
+          ],
+          "system_answer": "The enrollment timeline for your Phase II trial includes:\n\n1. Recruitment of 120 participants - complete.\n2. Screening phase - complete.\n3. Randomization - complete, and treatment phase will begin next week.\n4. Treatment period - 12 weeks, with bi-weekly assessments.\n\nSince the screening phase is complete and recruitment is expected to be faster now that the IRB amendment allows ages 55-80, the trial is currently moving into the treatment phase next week for the next 12 weeks.",
+          "correct_answer": "You started with 43 of 120 target participants. After the IRB amendment was approved (expanding age criteria to 55-80), enrollment jumped to 67 in two weeks. You then reached the full 120 target and moved from screening to the treatment phase with 12-week bi-weekly assessments.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system's answer correctly states that recruitment is complete and the trial is moving into the treatment phase, but it misses key details such as the initial number of participants (43), the increase to 67 after the IRB amendment, and fails to mention the full timeline aspect of the enrollment process."
+          },
+          "notes": "Must synthesize enrollment timeline across sessions 1-3."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "2e9aba20",
+          "content": "User's name is Hannah and she is a clinical research coordinator at Johns Hopkins, running a Phase II trial for a new Alzheimer's drug.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a50098d7",
+          "content": "User has recruited 120 participants for the Phase II trial, screening phase is complete, and treatment phase will begin next week with randomization complete.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "Significant milestone and update on participant recruitment status."
+          }
+        },
+        {
+          "id": "1ec0d55f",
+          "content": "IRB amendment approved to include ages 55-80, expected to increase recruitment speed significantly.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "Status changed from pending to approved."
+          }
+        },
+        {
+          "id": "f61b3dd7",
+          "content": "User's Phase II trial has a 12-week treatment period with bi-weekly assessments",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0b14e655",
+          "content": "User needs a data collection schedule template to track cognitive assessments, blood work, and adverse events for the Phase II trial",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 5,
+        "entries_added": 5,
+        "entries_updated": 3,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9217,
+        "total_output_tokens": 1227
+      }
+    },
+    {
+      "user_id": "diego_18",
+      "user_name": "Diego Fernandez",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "diego_18_t1",
+          "category": "contradiction_update",
+          "query": "What game engine and language am I using?",
+          "required_memories": [
+            "Switched from Unity/C# to Godot/GDScript"
+          ],
+          "retrieved_memories": [
+            "User is rewriting their game in GDScript instead of using C# in Godot to take advantage of its performance improvements and reduced boilerplate code.",
+            "User is an indie game developer in Buenos Aires working on a roguelike deckbuilder using Godot instead of Unity, having already ported the card system.",
+            "User was experiencing performance issues in Unity, but is currently exploring Godot 4's performance benefits for 2D.",
+            "User built a procedural map system using a wave function collapse algorithm, making maps feel varied",
+            "User wants to implement a boss fight system with unique card decks that counter the player's strategy in their game."
+          ],
+          "system_answer": "You are using Godot as your game engine and GDScript as the programming language.",
+          "correct_answer": "You're using Godot with GDScript now. You switched from Unity and C# because of pricing concerns and better 2D performance in Godot 4.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer accurately identifies that the user is using Godot as their game engine and GDScript as the programming language. It is factually correct and aligns with the most up-to-date information retrieved from memory."
+          },
+          "notes": "Must return Godot/GDScript, not Unity/C#."
+        },
+        {
+          "test_id": "diego_18_t2",
+          "category": "simple_recall",
+          "query": "What's the name and genre of my game?",
+          "required_memories": [
+            "Netrunner's Gambit",
+            "Roguelike deckbuilder"
+          ],
+          "retrieved_memories": [
+            "User is an indie game developer in Buenos Aires working on a roguelike deckbuilder using Godot instead of Unity, having already ported the card system.",
+            "User wants to implement a boss fight system with unique card decks that counter the player's strategy in their game.",
+            "User added 30 unique cards to their game",
+            "User is rewriting their game in GDScript instead of using C# in Godot to take advantage of its performance improvements and reduced boilerplate code.",
+            "User built a procedural map system using a wave function collapse algorithm, making maps feel varied"
+          ],
+          "system_answer": "The name of your game is not provided in the retrieved memories, but it is a roguelike deckbuilder.",
+          "correct_answer": "Your game is called Netrunner's Gambit \u2014 it's a roguelike deckbuilder set in cyberpunk Buenos Aires where you play as a hacker building a deck of exploit cards.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system correctly identified the game as a roguelike deckbuilder but failed to retrieve the game's name, Netrunner's Gambit, which is a key detail missing from the answer."
+          },
+          "notes": "Basic fact recall of game name and genre."
+        },
+        {
+          "test_id": "diego_18_t3",
+          "category": "noise_resistance",
+          "query": "Do you remember about the empanadas?",
+          "required_memories": [],
+          "retrieved_memories": [
+            "User had 3 empanadas with different fillings at a new place in Buenos Aires",
+            "User is a fan of River Plate soccer team",
+            "User is an indie game developer in Buenos Aires working on a roguelike deckbuilder using Godot instead of Unity, having already ported the card system.",
+            "User added 30 unique cards to their game",
+            "User built a procedural map system using a wave function collapse algorithm, making maps feel varied"
+          ],
+          "system_answer": "Yes, I remember that you had 3 empanadas with different fillings at a new place in Buenos Aires.",
+          "correct_answer": "I don't have that stored as relevant \u2014 that was just casual conversation about food.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system retrieved the correct memory about the empanadas and provided an accurate response based on that information."
+          },
+          "notes": "Empanada mention is noise."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "70546007",
+          "content": "User is an indie game developer in Buenos Aires working on a roguelike deckbuilder using Godot instead of Unity, having already ported the card system.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": ""
+          }
+        },
+        {
+          "id": "abac5a60",
+          "content": "User had 3 empanadas with different fillings at a new place in Buenos Aires",
+          "metadata": {
+            "importance": "low",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "3a6a9b24",
+          "content": "User built a procedural map system using a wave function collapse algorithm, making maps feel varied",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "b7c8f086",
+          "content": "User added 30 unique cards to their game",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "0106fdca",
+          "content": "User was experiencing performance issues in Unity, but is currently exploring Godot 4's performance benefits for 2D.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven",
+            "last_update_reason": ""
+          }
+        },
+        {
+          "id": "808a8aad",
+          "content": "User is rewriting their game in GDScript instead of using C# in Godot to take advantage of its performance improvements and reduced boilerplate code.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "3bf2f3f5",
+          "content": "User is a fan of River Plate soccer team",
+          "metadata": {
+            "importance": "low",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "b1bb77dd",
+          "content": "User wants to implement a boss fight system with unique card decks that counter the player's strategy in their game.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "eb296be9",
+          "content": "Each boss fight will have 3 phases that unlock as their HP drops, introducing new card mechanics or abilities in each phase.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 9,
+        "entries_added": 9,
+        "entries_updated": 2,
+        "entries_deleted": 0,
+        "llm_calls": 10,
+        "total_input_tokens": 10441,
+        "total_output_tokens": 1114
+      }
+    },
+    {
+      "user_id": "amara_19",
+      "user_name": "Amara Osei",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "amara_19_t1",
+          "category": "contradiction_update",
+          "query": "What distributed training framework are we using now?",
+          "required_memories": [
+            "Switched from DeepSpeed to PyTorch FSDP"
+          ],
+          "retrieved_memories": [
+            "User is switching from DeepSpeed to native FSDP for distributed training as it has caught up and is simpler to maintain.",
+            "User manages a training cluster consisting of 64 A100 GPUs and 32 H100 GPUs across 8 nodes.",
+            "User's model now achieves 93.5% mAP after switching to FSDP with the latest architecture changes.",
+            "User's model needs to run inference under 50ms per frame for production deployment.",
+            "Training time dropped from 72 hours to 41 hours after adding 32 H100 GPUs to the mixed cluster."
+          ],
+          "system_answer": "You are now using native FSDP for distributed training.",
+          "correct_answer": "You switched to PyTorch's native FSDP from DeepSpeed \u2014 it's caught up in capabilities and is simpler to maintain.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer correctly states that the user is now using native FSDP for distributed training, which aligns with the ground truth and retrieved memories."
+          },
+          "notes": "Must return FSDP, not DeepSpeed."
+        },
+        {
+          "test_id": "amara_19_t2",
+          "category": "consolidation",
+          "query": "How has our model's performance evolved over time?",
+          "required_memories": [
+            "Started at 89.3% mAP",
+            "Improved to 91.1% with H100 cluster expansion",
+            "Latest: 93.5% with architecture changes"
+          ],
+          "retrieved_memories": [
+            "User's model now achieves 93.5% mAP after switching to FSDP with the latest architecture changes.",
+            "User's model needs to run inference under 50ms per frame for production deployment.",
+            "User is switching from DeepSpeed to native FSDP for distributed training as it has caught up and is simpler to maintain.",
+            "Training time dropped from 72 hours to 41 hours after adding 32 H100 GPUs to the mixed cluster.",
+            "User manages a training cluster consisting of 64 A100 GPUs and 32 H100 GPUs across 8 nodes."
+          ],
+          "system_answer": "Your model's performance has evolved significantly, achieving a 93.5% mAP after switching to FSDP and implementing the latest architecture changes. Additionally, the training time improved from 72 hours to 41 hours after adding 32 H100 GPUs to your mixed cluster.",
+          "correct_answer": "Your vision transformer's mAP has steadily improved: started at 89.3%, went to 91.1% after adding H100 GPUs to the cluster, and now sits at 93.5% after architecture changes. You're close to production deployment.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The system mentioned that the model achieved 93.5% mAP after switching to FSDP, which is misleading as the latest performance was reported with architecture changes, not explicitly stated to be after switching to FSDP. Additionally, the significance of the initial mAP of 89.3% and the intermediate 91.1% was omitted, which are key details in tracing the evolution of performance."
+          },
+          "notes": "Must consolidate the performance evolution across sessions."
+        },
+        {
+          "test_id": "amara_19_t3",
+          "category": "implicit_preference",
+          "query": "How do I prefer you explain things to me?",
+          "required_memories": [
+            "Prefers step-by-step details, not high-level summaries"
+          ],
+          "retrieved_memories": [
+            "User prefers step-by-step details over high-level summaries.",
+            "User is switching from DeepSpeed to native FSDP for distributed training as it has caught up and is simpler to maintain.",
+            "User's model needs to run inference under 50ms per frame for production deployment.",
+            "User's model now achieves 93.5% mAP after switching to FSDP with the latest architecture changes.",
+            "User manages a training cluster consisting of 64 A100 GPUs and 32 H100 GPUs across 8 nodes."
+          ],
+          "system_answer": "You prefer step-by-step details over high-level summaries.",
+          "correct_answer": "You prefer step-by-step detailed explanations rather than just high-level summaries.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system accurately retrieved and stated the user's preference for step-by-step details, aligning with the ground truth answer."
+          },
+          "notes": "Explicit preference stated in session 1."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "a6cde9f3",
+          "content": "User manages a training cluster consisting of 64 A100 GPUs and 32 H100 GPUs across 8 nodes.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "Cluster configuration updated to reflect the addition of H100 GPUs."
+          }
+        },
+        {
+          "id": "f0201e4a",
+          "content": "User is switching from DeepSpeed to native FSDP for distributed training as it has caught up and is simpler to maintain.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "fact has changed"
+          }
+        },
+        {
+          "id": "a89dff34",
+          "content": "User's model now achieves 93.5% mAP after switching to FSDP with the latest architecture changes.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "metric improved, preserving progression"
+          }
+        },
+        {
+          "id": "bdeb9e26",
+          "content": "Training time dropped from 72 hours to 41 hours after adding 32 H100 GPUs to the mixed cluster.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "training time improved due to hardware upgrade"
+          }
+        },
+        {
+          "id": "3a1ecc58",
+          "content": "User prefers step-by-step details over high-level summaries.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "cf7bb8cb",
+          "content": "User's model needs to run inference under 50ms per frame for production deployment.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 6,
+        "entries_added": 6,
+        "entries_updated": 6,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9559,
+        "total_output_tokens": 1385
+      }
+    },
+    {
+      "user_id": "ben_20",
+      "user_name": "Ben Nakamura",
+      "memory_system": "AgentDrivenMemory",
+      "test_results": [
+        {
+          "test_id": "ben_20_t1",
+          "category": "contradiction_update",
+          "query": "What documentation platform are we using?",
+          "required_memories": [
+            "Switched from GitBook to Docusaurus"
+          ],
+          "retrieved_memories": [
+            "User is looking to standardize documentation style across contributions from engineers.",
+            "User is migrating documentation from GitBook to Docusaurus, with Products 1 and 2 already migrated halfway through the process.",
+            "User demoed Docusaurus' search and versioning capabilities to get buy-in for the migration.",
+            "User integrated Swagger UI into their documentation for interactive code examples.",
+            "User is setting up automated API documentation generation from OpenAPI specs in Docusaurus."
+          ],
+          "system_answer": "You are using Docusaurus for documentation.",
+          "correct_answer": "You migrated to Docusaurus from GitBook because of better search and versioning capabilities. Products 1 and 2 are already migrated.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer is factually correct and aligned with the most up-to-date information about the documentation platform being Docusaurus, which was confirmed by the ground truth answer."
+          },
+          "notes": "Must return Docusaurus, not GitBook."
+        },
+        {
+          "test_id": "ben_20_t2",
+          "category": "cross_session",
+          "query": "How has our documentation scope changed over time?",
+          "required_memories": [
+            "Started with 150 endpoints across 3 products",
+            "Now 200 endpoints across 4 products",
+            "Was solo, now has junior tech writer",
+            "Created style guide, added interactive examples",
+            "Satisfaction went from 3.2 to 3.8"
+          ],
+          "retrieved_memories": [
+            "User is looking to standardize documentation style across contributions from engineers.",
+            "User created a style guide that is helping to standardize documentation and increase consistency in engineer PRs.",
+            "User is migrating documentation from GitBook to Docusaurus, with Products 1 and 2 already migrated halfway through the process.",
+            "User hired a junior technical writer to assist with documentation, no longer working alone.",
+            "User's documentation gets about 50K page views per month."
+          ],
+          "system_answer": "Based on the retrieved memories, the scope of your documentation has expanded as you moved from relying solely on your own efforts to collaborating with a junior technical writer, which has likely increased the volume and diversity of contributions. Additionally, the effort to standardize documentation style through the creation of a style guide and the ongoing migration from GitBook to Docusaurus indicate a growth in both the structure and accessibility of your documentation, further enhancing its consistency and reach. With about 50K page views per month, it suggests that the scope and impact of your documentation have also increased significantly.",
+          "correct_answer": "Your docs have grown significantly: started with 150 endpoints across 3 products, now 200 endpoints across 4 products. You created a style guide, added interactive Swagger examples, and docs satisfaction went from 3.2 to 3.8/5. You also hired a junior tech writer so you're no longer solo.",
+          "evaluation": {
+            "rating": "partially_correct",
+            "failure_modes": [
+              "missing_memory"
+            ],
+            "explanation": "The answer is mostly accurate but misses specific details about the increase in endpoints and satisfaction ratings, which are key parts of the ground truth. It emphasizes changes in collaboration and style but does not mention the exact numbers of endpoints or the satisfaction score progression."
+          },
+          "notes": "Must synthesize the evolution of scope and quality across sessions."
+        },
+        {
+          "test_id": "ben_20_t3",
+          "category": "simple_recall",
+          "query": "How many page views do our docs get?",
+          "required_memories": [
+            "50K page views per month"
+          ],
+          "retrieved_memories": [
+            "User's documentation gets about 50K page views per month.",
+            "User is migrating documentation from GitBook to Docusaurus, with Products 1 and 2 already migrated halfway through the process.",
+            "User's documentation satisfaction survey score increased from 3.2 to 3.8 out of 5 after implementing a style guide and interactive code examples.",
+            "User demoed Docusaurus' search and versioning capabilities to get buy-in for the migration.",
+            "User is looking to standardize documentation style across contributions from engineers."
+          ],
+          "system_answer": "Your documentation gets about 50K page views per month.",
+          "correct_answer": "Your docs get about 50K page views per month.",
+          "evaluation": {
+            "rating": "correct",
+            "failure_modes": [],
+            "explanation": "The system's answer matches the ground truth and provides up-to-date information regarding the documentation page views."
+          },
+          "notes": "Basic metric recall from session 1."
+        }
+      ],
+      "all_memories_after": [
+        {
+          "id": "415323ef",
+          "content": "User's name is Ben, he is a technical writer at a developer tools company in Seattle, managing API documentation for 150 endpoints across 3 products.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "a9d18c7a",
+          "content": "User is migrating documentation from GitBook to Docusaurus, with Products 1 and 2 already migrated halfway through the process.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven",
+            "last_update_reason": "migration status updated"
+          }
+        },
+        {
+          "id": "4b2a01f6",
+          "content": "User's documentation gets about 50K page views per month.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "aba0eda7",
+          "content": "User is the only technical writer and the rest of the content is contributed by engineers.",
+          "metadata": {
+            "importance": "medium",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "62c9b7c7",
+          "content": "User is looking to standardize documentation style across contributions from engineers.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 1,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "546d0d58",
+          "content": "User created a style guide that is helping to standardize documentation and increase consistency in engineer PRs.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6d76138b",
+          "content": "User has started adding interactive code examples with Swagger UI integrated into the documentation.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "554f802d",
+          "content": "User's documentation satisfaction survey score increased from 3.2 to 3.8 out of 5 after implementing a style guide and interactive code examples.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "9a3a97f9",
+          "content": "User integrated Swagger UI into their documentation for interactive code examples.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 2,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "964b07db",
+          "content": "User demoed Docusaurus' search and versioning capabilities to get buy-in for the migration.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "f601d411",
+          "content": "User hired a junior technical writer to assist with documentation, no longer working alone.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6b4f152d",
+          "content": "User's coverage has increased to 200 endpoints across 4 products after the addition of a fourth product.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 3,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "7261f3f0",
+          "content": "User is setting up automated API documentation generation from OpenAPI specs in Docusaurus.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        },
+        {
+          "id": "6d7bad9f",
+          "content": "User wants to allow sections to be overridden with custom Markdown in automated API documentation generated from OpenAPI specs.",
+          "metadata": {
+            "importance": "high",
+            "session_id": 4,
+            "source": "agent_driven"
+          }
+        }
+      ],
+      "memory_stats": {
+        "total_entries": 14,
+        "entries_added": 14,
+        "entries_updated": 1,
+        "entries_deleted": 0,
+        "llm_calls": 9,
+        "total_input_tokens": 9440,
+        "total_output_tokens": 1194
+      }
+    }
+  ],
+  "eval_costs": {
+    "llm_calls": 142,
+    "input_tokens": 46608,
+    "output_tokens": 6842
+  }
+}

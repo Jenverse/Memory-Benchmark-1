@@ -1,0 +1,11 @@
+openai>=1.0.0
+mem0ai>=0.1.0
+zep-cloud>=2.0.0
+langmem
+numpy>=1.24.0
+pandas>=2.0.0
+tabulate>=0.9.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tqdm>=4.65.0
+python-dotenv>=1.0.0

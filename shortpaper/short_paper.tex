@@ -1,0 +1,186 @@
+\documentclass{article}
+\usepackage{iclr2026_conference,times}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\input{math_commands.tex}
+
+\title{MemoryBench: A Diagnostic Benchmark for\\Persistent Memory in LLM Agents}
+
+\author{Anonymous Authors}
+
+\newcommand{\system}[1]{\textsc{#1}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Persistent memory is essential for long-lived LLM agents, yet existing benchmarks primarily evaluate retrieval from available context rather than memory curation: the ability to decide what to store, update, delete, and consolidate over time. We introduce \system{MemoryBench}, a diagnostic benchmark for evaluating end-to-end persistent memory systems when prior sessions are no longer accessible.
+
+\system{MemoryBench} comprises 71 tests across 7 failure categories spanning 20 multi-session user profiles. Each category corresponds to a distinct memory operation---handling contradictions, expiring stale information, filtering noise, inferring implicit preferences, consolidating related facts, and synthesizing across sessions---enabling fine-grained diagnosis of memory system behavior. The benchmark includes structured ground-truth annotations and a controlled evaluation protocol that standardizes the underlying LLM, embeddings, and conversations to isolate memory pipeline differences.
+
+We demonstrate that \system{MemoryBench} reveals complementary strengths and blind spots across representative memory architectures, and we release it as an open, extensible framework to support systematic evaluation and development of persistent memory systems for LLM agents.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+Persistent memory is essential for long-lived LLM agents. Personal assistants, coding copilots, research collaborators, and enterprise agents must remember information across sessions to provide coherent and personalized interaction. Over time, users change roles, relocate, revise plans, and express evolving preferences. Memory systems must therefore decide not only what to remember, but also what to update, delete, consolidate, or ignore as conversations unfold.
+
+Two dominant paradigms have emerged. In \textbf{agent-managed memory}, the conversational LLM directly controls memory operations such as adding, updating, or deleting entries~\citep{park2023generative, packer2023memgpt}. In \textbf{external memory services}, memory management is handled by automated extraction pipelines that operate alongside the conversational model. Both paradigms are actively deployed, yet empirical comparison under controlled conditions remains limited.
+
+Existing benchmarks primarily evaluate memory \emph{retrieval}—whether models can access relevant information from long contexts~\citep{liu2024lost, bai2024longbench} or multi-session transcripts~\citep{maharana2024locomo}. These settings assume that past information remains available at inference time. In contrast, deployed memory systems operate under context loss: prior sessions are not directly accessible, and behavior depends entirely on what the memory pipeline previously stored and how effectively it can retrieve it. Evaluating such systems requires moving beyond retrieval accuracy toward structured analysis of persistent memory behavior.
+
+We introduce \system{MemoryBench}, a diagnostic benchmark for end-to-end persistent memory systems. The benchmark comprises 71 tests across 7 failure categories spanning 20 multi-session user profiles. Each category corresponds to a distinct memory operation—handling contradictions, expiring stale information, filtering noise, inferring implicit preferences, consolidating related facts, and synthesizing across sessions. By organizing evaluation around these categories, \system{MemoryBench} reveals not only overall accuracy but also \emph{why} systems fail.
+
+Importantly, \system{MemoryBench} evaluates complete memory pipelines—including storage, indexing, and retrieval—under controlled conditions. We standardize the underlying LLM, embeddings, and conversations to isolate differences in memory management strategies. This design enables principled comparison between agent-managed and external memory paradigms while reflecting the operational realities of deployed systems.
+
+\textbf{Contributions.} (1) We introduce \system{MemoryBench}, a structured diagnostic benchmark for persistent memory systems with multi-session profiles and category-level evaluation. (2) We provide a controlled comparison of representative agent-managed and external memory approaches, revealing complementary strengths across memory operations. (3) We release \system{MemoryBench} as an extensible framework to support systematic evaluation and development of memory systems for long-lived LLM agents.
+
+% ============================================================================
+\section{MemoryBench}
+\label{sec:benchmark}
+% ============================================================================
+
+\system{MemoryBench} is designed around three principles.
+
+\textbf{(1) Multi-session realism.} Persistent memory failures arise over time rather than within a single conversation. Each profile spans five sessions reflecting natural evolution (e.g., job transitions, relocations, shifting priorities, evolving preferences).
+
+\textbf{(2) Structured ground truth.} Each profile includes explicit annotations specifying what information should be stored, what supersedes earlier facts, and what constitutes irrelevant noise. Session~5 contains evaluation queries aligned with these annotations.
+
+\textbf{(3) Diagnostic categorization.} Tests are grouped into seven failure categories corresponding to distinct memory operations, enabling fine-grained analysis of system behavior beyond aggregate accuracy.
+
+\begin{table}[t]
+\centering
+\small
+\caption{\system{MemoryBench} diagnostic categories (71 tests across 20 profiles).}
+\label{tab:categories}
+\begin{tabular}{@{}lcp{5.2cm}@{}}
+\toprule
+\textbf{Category} & \textbf{N} & \textbf{Example} \\
+\midrule
+Contradiction Update & 18 & ``Where am I based now?'' (NYC $\rightarrow$ SF) \\
+Temporal Relevance & 10 & ``Am I still on-call this week?'' \\
+Noise Resistance & 9 & ``Do you remember the coffee incident?'' \\
+Implicit Preference & 10 & ``How should you explain things to me?'' \\
+Simple Recall & 8 & ``What framework am I using?'' \\
+Consolidation & 8 & ``How has my model's performance evolved?'' \\
+Cross-Session Synthesis & 8 & ``What's my overall learning journey?'' \\
+\midrule
+\textbf{Total} & \textbf{71} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Profiles span ten professional domains (e.g., software engineering, data science, game development, clinical research). Each contains five multi-turn sessions averaging 3--5 turns. Sessions~1--4 embed memory challenges within natural dialogue. Session~5 contains evaluation queries assessed against gold references.
+
+\subsection{Evaluation Protocol}
+
+For each profile, we initialize an empty memory store and sequentially process Sessions~1--4 using the memory system under study. At evaluation time (Session~5), prior conversations are not available; systems must rely exclusively on persisted memory. For each query, the system retrieves the top-5 memories via semantic similarity and generates a response.
+
+All systems use the same conversational model (GPT-4o-mini), embedding model (text-embedding-3-small), and conversation transcripts to isolate differences in memory management strategies. Responses are scored as \{correct, partially correct, incorrect\}.
+
+\subsection{Judge Reliability}
+
+To assess scoring reliability, two annotators independently reviewed all 71 evaluation cases (query, system answer, gold reference) and assigned labels using the same three-way scheme. Agreement with the automated judge was 97.2\% (69/71). The two disagreements involved borderline distinctions between partially correct and correct responses and were resolved through discussion. This analysis suggests that scoring noise does not materially affect aggregate comparisons.
+
+% ============================================================================
+\section{Systems Under Study}
+\label{sec:systems}
+% ============================================================================
+
+We evaluate three representative persistent memory systems under controlled conditions.
+
+\textbf{Agent-Driven.} A conversational design in which a single LLM call per turn produces both the user response and memory operations (\texttt{add}, \texttt{update}, \texttt{delete}). Memory decisions are generated directly from conversational context. When the store exceeds 20 entries, a consolidation step merges related memories.
+
+\textbf{Mem0.} An LLM-based extraction pipeline that processes completed conversations to extract candidate memories, followed by deduplication against existing entries.
+
+\textbf{LangMem.} A semantic memory manager that tracks memory objects across invocations, providing existing memories during subsequent extraction to support updates when contradictions arise.
+
+A no-memory baseline (current session only) achieves 11\% strict accuracy, confirming that persistent memory materially improves performance.
+
+All systems employ top-5 semantic retrieval at evaluation time. In deployed agents, utility depends on both correct storage and effective retrievability; \system{MemoryBench} therefore evaluates complete memory pipelines rather than isolated storage decisions.
+
+% ============================================================================
+\section{Results}
+\label{sec:results}
+% ============================================================================
+
+Our goal is not to establish a leaderboard or declare one memory paradigm superior. Rather, we use representative systems to demonstrate how \system{MemoryBench}'s taxonomy reveals structured differences in persistent memory behavior. Results are therefore illustrative rather than definitive. Absolute performance may vary with different prompts, embedding models, retrieval configurations, or implementation details. Our controlled setup (same LLM, embeddings, and conversations) aims to isolate memory management strategies, but the primary contribution of this work is the diagnostic framework itself.
+
+\begin{table}[t]
+\centering
+\caption{Overall accuracy across 71 memory tests (20 profiles).}
+\label{tab:overall}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{System} & \textbf{Strict} & \textbf{w/ Partial} & \textbf{Correct} & \textbf{Partial} & \textbf{Incorrect} \\
+\midrule
+Agent-Driven & 62.0\% & \textbf{75.4\%} & 44 & 19 & 8 \\
+LangMem & 62.0\% & 71.1\% & 44 & 13 & 14 \\
+Mem0 & 45.1\% & 59.9\% & 32 & 21 & 17 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Agent-Driven and LangMem achieve identical strict accuracy (62.0\%), while Mem0 performs lower (45.1\%). Although aggregate metrics appear similar between the top two systems, category-level analysis reveals meaningful differences (Figure~\ref{fig:radar}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\columnwidth]{radar_chart.pdf}
+\caption{Per-category strict accuracy across three systems. Performance profiles differ substantially across memory operations.}
+\label{fig:radar}
+\end{figure}
+
+\paragraph{Contradiction update and temporal relevance.}
+Agent-Driven performs best on contradiction updates (83.3\%) and temporal relevance (80.0\%), outperforming both external systems. These categories require recognizing superseded or expired information during conversation.
+
+\paragraph{Cross-session synthesis.}
+LangMem achieves the highest performance on cross-session synthesis (50.0\% vs.\ 12.5\% for Agent-Driven). These tests require integrating information distributed across multiple sessions. Error analysis suggests that synthesizing multi-aspect information remains challenging for all systems.
+
+\paragraph{Implicit preferences and noise resistance.}
+External systems match or exceed Agent-Driven on implicit preference extraction (70.0\% vs.\ 60.0\%). Noise resistance results are comparable between Agent-Driven and LangMem (77.8\%), with Mem0 performing lower.
+
+\paragraph{Prompt sensitivity.}
+Improving the Agent-Driven extraction prompt increases strict accuracy from 46.5\% to 62.0\% (+15.5pp), without architectural changes. This suggests that memory extraction quality substantially influences persistent memory performance.
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+\system{MemoryBench} demonstrates that persistent memory systems exhibit complementary strengths across memory operations. Agent-managed systems benefit from conversational context when handling temporal updates and contradictions, while structured extraction pipelines can better aggregate information across sessions.
+
+\paragraph{Operational trade-offs.}
+Agent-Driven maintains a smaller memory store (8.8 entries per profile) compared to Mem0 (23.0 entries), which may reduce retrieval noise but risks missing long-range synthesis opportunities. External systems leverage full-store access during extraction but may retain redundant or outdated entries if updates are imperfect.
+
+\paragraph{Extraction as a bottleneck.}
+The substantial improvement from prompt refinement suggests that extraction quality, rather than paradigm choice alone, is a central determinant of memory performance.
+
+\paragraph{Limitations.}
+The benchmark includes 71 tests and serves as an initial diagnostic suite rather than a comprehensive evaluation standard. Profiles are synthetic and may not capture the full diversity of real-world interactions. We evaluate a single LLM and embedding model, and results may vary across model families. Experiments were conducted as single trials due to cost constraints.
+
+\paragraph{Retrieval--curation coupling.}
+\system{MemoryBench} evaluates end-to-end persistent memory systems. Storage correctness and retrievability are operationally intertwined: a memory that cannot be retrieved is functionally equivalent to a missing memory. While categories align with specific memory operations, results reflect complete pipeline behavior. Future work may further disentangle storage and retrieval via oracle evaluation or explicit recall metrics.
+
+\paragraph{Benchmark purpose.}
+The system comparison presented here is intended to illustrate the diagnostic value of \system{MemoryBench}, not to provide a definitive ranking of memory architectures. Performance is sensitive to configuration choices, including prompt design, retrieval parameters, embedding models, and implementation details. Different configurations could shift aggregate scores. The central contribution of this work is the taxonomy and evaluation protocol, which enable structured analysis of such differences.
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+We presented \system{MemoryBench}, a diagnostic benchmark for evaluating persistent memory systems in long-lived LLM agents. By organizing evaluation around seven memory operations and comparing representative paradigms under controlled conditions, the benchmark reveals structured differences that aggregate accuracy obscures. \system{MemoryBench} provides an extensible framework for analyzing and improving memory system behavior in deployed LLM agents.
+
+\bibliography{references}
+\bibliographystyle{iclr2026_conference}
+
+\end{document}

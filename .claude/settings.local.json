@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tectonic:*)",
+      "Bash(mdls:*)",
+      "Bash(python3:*)"
+    ]
+  }
+}
