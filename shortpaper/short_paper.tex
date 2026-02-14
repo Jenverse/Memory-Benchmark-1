@@ -22,7 +22,7 @@
 \begin{abstract}
 Persistent memory is essential for long-lived LLM agents, yet existing benchmarks primarily evaluate retrieval from available context rather than memory curation: the ability to decide what to store, update, delete, and consolidate over time. We introduce \system{MemoryBench}, a diagnostic benchmark for evaluating end-to-end persistent memory systems when prior sessions are no longer accessible.\footnote{Code and benchmark available at: \url{https://anonymous.4open.science/r/Memory-Benchmark-1-1006/}}
 
-\system{MemoryBench} comprises 71 tests across 7 failure categories spanning 20 multi-session user profiles. Each category corresponds to a distinct memory operation---handling contradictions, expiring stale information, filtering noise, inferring implicit preferences, consolidating related facts, and synthesizing across sessions---enabling fine-grained diagnosis of memory system behavior. The benchmark includes structured ground-truth annotations and a controlled evaluation protocol that standardizes the underlying LLM, embeddings, and conversations to isolate memory pipeline differences.
+\system{MemoryBench} comprises 71 tests across 7 failure categories spanning 20 multi-session user profiles. Each category corresponds to a distinct memory operation: handling contradictions, expiring stale information, filtering noise, inferring implicit preferences, consolidating related facts, and synthesizing across sessions. This enables fine-grained diagnosis of memory system behavior. The benchmark includes structured ground-truth annotations and a controlled evaluation protocol that standardizes the underlying LLM, embeddings, and conversations to isolate memory pipeline differences.
 
 We demonstrate that \system{MemoryBench} reveals complementary strengths and blind spots across representative memory architectures, and we release it as an open, extensible framework to support systematic evaluation and development of persistent memory systems for LLM agents.
 \end{abstract}
@@ -79,11 +79,11 @@ Cross-Session Synthesis & 8 & ``What's my overall learning journey?'' \\
 \end{tabular}
 \end{table}
 
-Profiles span ten professional domains (e.g., software engineering, data science, game development, clinical research). Each contains five multi-turn sessions averaging 3--5 turns. Sessions~1--4 embed memory challenges within natural dialogue. Session~5 contains evaluation queries assessed against gold references.
+Profiles span ten professional domains (e.g., software engineering, data science, game development, clinical research). Each contains five multi-turn sessions averaging 3 to 5 turns. Sessions 1 through 4 embed memory challenges within natural dialogue. Session 5 contains evaluation queries assessed against gold references.
 
 \subsection{Evaluation Protocol}
 
-For each profile, we initialize an empty memory store and sequentially process Sessions~1--4 using the memory system under study. At evaluation time (Session~5), prior conversations are not available; systems must rely exclusively on persisted memory. For each query, the system retrieves the top-5 memories via semantic similarity and generates a response.
+For each profile, we initialize an empty memory store and sequentially process Sessions 1 through 4 using the memory system under study. At evaluation time (Session 5), prior conversations are not available; systems must rely exclusively on persisted memory. For each query, the system retrieves the top-5 memories via semantic similarity and generates a response.
 
 All systems use the same conversational model (GPT-4o-mini), embedding model (text-embedding-3-small), and conversation transcripts to isolate differences in memory management strategies. Responses are scored as \{correct, partially correct, incorrect\}.
 
@@ -167,7 +167,7 @@ The substantial improvement from prompt refinement suggests that extraction qual
 \paragraph{Limitations.}
 The benchmark includes 71 tests and serves as an initial diagnostic suite rather than a comprehensive evaluation standard. Profiles are synthetic and may not capture the full diversity of real-world interactions. We evaluate a single LLM and embedding model, and results may vary across model families. Experiments were conducted as single trials due to cost constraints.
 
-\paragraph{Retrieval--curation coupling.}
+\paragraph{Retrieval-curation coupling.}
 \system{MemoryBench} evaluates end-to-end persistent memory systems. Storage correctness and retrievability are operationally intertwined: a memory that cannot be retrieved is functionally equivalent to a missing memory. While categories align with specific memory operations, results reflect complete pipeline behavior. Future work may further disentangle storage and retrieval via oracle evaluation or explicit recall metrics.
 
 \paragraph{Benchmark purpose.}
