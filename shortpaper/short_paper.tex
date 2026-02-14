@@ -20,7 +20,7 @@
 \maketitle
 
 \begin{abstract}
-Persistent memory is essential for long-lived LLM agents, yet existing benchmarks primarily evaluate retrieval from available context rather than memory curation: the ability to decide what to store, update, delete, and consolidate over time. We introduce \system{MemoryBench}, a diagnostic benchmark for evaluating end-to-end persistent memory systems when prior sessions are no longer accessible.
+Persistent memory is essential for long-lived LLM agents, yet existing benchmarks primarily evaluate retrieval from available context rather than memory curation: the ability to decide what to store, update, delete, and consolidate over time. We introduce \system{MemoryBench}, a diagnostic benchmark for evaluating end-to-end persistent memory systems when prior sessions are no longer accessible.\footnote{Code and benchmark available at: \url{https://anonymous.4open.science/r/Memory-Benchmark-1-1006/}}
 
 \system{MemoryBench} comprises 71 tests across 7 failure categories spanning 20 multi-session user profiles. Each category corresponds to a distinct memory operation---handling contradictions, expiring stale information, filtering noise, inferring implicit preferences, consolidating related facts, and synthesizing across sessions---enabling fine-grained diagnosis of memory system behavior. The benchmark includes structured ground-truth annotations and a controlled evaluation protocol that standardizes the underlying LLM, embeddings, and conversations to isolate memory pipeline differences.
 
