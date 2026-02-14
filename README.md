@@ -47,8 +47,6 @@ All systems use the same LLM (GPT-4o-mini) and embedding model (text-embedding-3
 **External Memory Services**
 - **Mem0**: Automated extraction pipeline with deduplication
 - **LangMem**: Graph-based memory with entity extraction
-- **Zep**: Fact extraction with temporal decay
-- **Redis**: Two-stage working/long-term memory
 
 **Baseline**
 - **Current Session Only**: No persistent memory (simulates context window limitations)
@@ -62,8 +60,6 @@ All systems use the same LLM (GPT-4o-mini) and embedding model (text-embedding-3
 | System | Strict Accuracy |
 |--------|----------------|
 | **Base** (no memory) | 0.0% |
-| **Zep** | 29.6% |
-| **Redis** | 43.7% |
 | **Mem0** | 45.1% |
 | **LangMem** | 62.0% |
 | **Agent-Driven** | 62.0% |
@@ -108,8 +104,6 @@ This demonstrates how MemoryBench's category-level analysis reveals structured d
 │   ├── agent_driven.py            # Agent-managed memory
 │   ├── external_mem0.py           # Mem0 wrapper
 │   ├── langmem_memory.py          # LangMem wrapper
-│   ├── zep_memory.py              # Zep wrapper
-│   ├── redis_memory.py            # Redis wrapper
 │   ├── base.py                    # Base memory interface
 │   └── embedder.py                # Shared embedding utilities
 ├── evaluation/
@@ -162,7 +156,6 @@ OPENAI_API_KEY=your-openai-api-key-here
 
 # Optional (for specific memory systems):
 MEM0_API_KEY=  # Leave empty to use local Mem0
-ZEP_API_KEY=   # Only needed for Zep experiments
 ```
 
 ### Running Experiments
@@ -172,7 +165,6 @@ ZEP_API_KEY=   # Only needed for Zep experiments
 python run_experiment.py --system agent --trials 1
 python run_experiment.py --system mem0 --trials 1
 python run_experiment.py --system langmem --trials 1
-python run_experiment.py --system zep --trials 1
 
 # Analyze results
 python analyze_results.py
@@ -185,7 +177,7 @@ python validate_llm_judge.py
 
 - Python 3.10+
 - OpenAI API key (GPT-4o-mini and text-embedding-3-small)
-- Optional: API keys for external memory services (Mem0, Zep)
+- Optional: API key for Mem0 (leave empty to use local Mem0)
 
 ## Paper
 
