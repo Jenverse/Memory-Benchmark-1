@@ -1,126 +1,157 @@
-# Should Your Agent Manage Its Own Memory?
+# MemoryBench
 
-**An Empirical Study of Persistent Memory Strategies for LLM Agents**
+**A Diagnostic Benchmark for Persistent Memory in LLM Agents**
 
-Major AI products — ChatGPT, Claude, Cursor — have each built their own agent-managed memory systems rather than using third-party memory providers. This project empirically investigates whether that design choice is well-founded.
+This repository contains **MemoryBench**, a diagnostic benchmark for evaluating how well memory systems handle persistent information across conversation sessions when prior context is no longer available.
 
-## What We Did
+## Overview
 
-We conducted a controlled empirical study comparing how different persistent memory strategies perform when an LLM agent needs to remember information across conversation sessions.
+Existing benchmarks like [LoCoMo](https://snap-research.github.io/locomo/) and [LongBench](https://github.com/THUDM/LongBench) test whether LLMs can recall information from long conversations where the full history is available. MemoryBench tests a different problem: whether memory systems make correct **curation decisions** — what to store, update, delete, and consolidate — when prior sessions are no longer in the context window.
 
-**The key question**: Should you let your agent manage its own memory, or outsource it to an external provider?
+This is the practical reality for production agents where you can't keep every past conversation in context.
 
-**Why this matters**: Existing benchmarks like [LoCoMo](https://snap-research.github.io/locomo/) test whether an LLM can *recall* information from long conversations where the full history is available. We test a different problem: whether a memory *system* makes correct *curation* decisions — what to persist, update, delete, and consolidate — when prior sessions are no longer in context. This is the practical reality for production agents where you can't keep every past conversation in the context window.
+## Benchmark Design
 
-### Evaluation Setup
+MemoryBench is designed around three principles:
 
-- **20 synthetic user profiles** across 10 professional domains (data engineering, game dev, clinical research, cybersecurity, etc.)
-- **5 conversation sessions per profile** with natural evolution — users change jobs, move cities, update preferences, share irrelevant details
-- **57 ground-truth memory tests** across 7 categories:
+1. **Multi-session realism**: Each profile spans 5 sessions reflecting natural evolution (job changes, relocations, preference shifts)
+2. **Targeted failure modes**: 71 tests across 7 categories that isolate specific memory operations
+3. **Controlled comparison**: Same LLM (GPT-4o-mini), same embeddings (text-embedding-3-small), same retrieval setup
+
+### Test Categories
 
 | Category | Tests | What It Tests |
 |----------|-------|---------------|
-| Contradiction Update | 18 | User says NYC in Session 1, SF in Session 3 — does the system update? |
-| Simple Recall | 8 | Can it remember basic facts from earlier sessions? |
-| Implicit Preference | 5 | Does it pick up on communication style preferences? |
-| Temporal Relevance | 6 | Does it know "on-call this week" from 3 sessions ago is stale? |
-| Consolidation | 6 | Can it track evolving facts (model accuracy improving over time)? |
-| Noise Resistance | 6 | Does it filter out "I spilled coffee" as irrelevant? |
-| Cross-Session Synthesis | 8 | Can it combine facts from multiple sessions into a coherent answer? |
+| Contradiction Update | 18 | Does the system update when facts change? (NYC → SF) |
+| Temporal Relevance | 10 | Does it recognize time-sensitive information is stale? |
+| Implicit Preference | 10 | Does it capture unstated preferences from behavior? |
+| Noise Resistance | 9 | Does it filter irrelevant information? |
+| Simple Recall | 8 | Can it retrieve basic facts from earlier sessions? |
+| Consolidation | 8 | Can it merge related facts across sessions? |
+| Cross-Session Synthesis | 8 | Can it combine information from multiple sessions? |
 
-### The Systems We Compared
+**Total**: 20 user profiles × 5 sessions × 71 tests = 1,420 test instances
 
-All systems used the same LLM (GPT-4o-mini) and embedding model (text-embedding-3-small).
+## Systems Evaluated
 
-1. **Current Session Only (Baseline)**: No memory of prior sessions. Simulates context window limitations.
-2. **Mem0**: Open-source external memory provider. Extracts facts automatically, has built-in deduplication.
-3. **Redis Agent Memory Server**: Two-stage external provider (working memory → long-term memory promotion).
-4. **Agent-Driven**: The LLM manages its own memory — sees all stored memories, decides what to add/update/delete, periodically consolidates.
+All systems use the same LLM (GPT-4o-mini) and embedding model (text-embedding-3-small) for fair comparison.
 
-Plus **3 ablation variants** of the agent-driven approach to understand which components matter.
+### Memory System Paradigms
+
+**Agent-Driven (Agent-Managed)**
+- LLM directly controls memory operations (add, update, delete)
+- Sees all stored memories during conversation
+- Periodically consolidates related memories
+- Custom extraction logic per conversation
+
+**External Memory Services**
+- **Mem0**: Automated extraction pipeline with deduplication
+- **LangMem**: Graph-based memory with entity extraction
+- **Zep**: Fact extraction with temporal decay
+- **Redis**: Two-stage working/long-term memory
+
+**Baseline**
+- **Current Session Only**: No persistent memory (simulates context window limitations)
 
 ## Results
 
-### Overall Accuracy
+**Note**: These results are illustrative, demonstrating the diagnostic value of MemoryBench. Absolute performance varies with prompts, retrieval configurations, and implementation details. The benchmark's contribution is the taxonomy and evaluation protocol for structured analysis.
 
-| System | Accuracy | With Partial Credit |
-|--------|----------|-------------------|
-| Current Session (Baseline) | 11.1% | 11.7% |
-| Redis Agent Memory | 43.9% | 57.0% |
-| Mem0 | 63.2% | 73.7% |
-| **Agent-Driven** | **73.7%** | **84.2%** |
+### Overall Strict Accuracy
 
-### Per-Category Breakdown
+| System | Strict Accuracy |
+|--------|----------------|
+| **Base** (no memory) | 0.0% |
+| **Zep** | 29.6% |
+| **Redis** | 43.7% |
+| **Mem0** | 45.1% |
+| **LangMem** | 62.0% |
+| **Agent-Driven** | 62.0% |
 
-| Category | Baseline | Redis | Mem0 | Agent |
-|----------|----------|-------|------|-------|
-| Contradiction Update | 0% | 33% | 83% | **89%** |
-| Simple Recall | 0% | 38% | 50% | **75%** |
-| Implicit Preference | 0% | **100%** | **100%** | **100%** |
-| Temporal Relevance | 17% | 50% | 67% | **83%** |
-| Consolidation | 0% | **50%** | 33% | **50%** |
-| Noise Resistance | **89%** | 83% | 83% | 83% |
-| Cross-Session | 0% | 0% | 13% | **25%** |
+### Per-Category Performance
 
-### Ablation Study
+Agent-Driven and LangMem achieve identical aggregate scores (62.0%) but show complementary strengths:
 
-| Variant | Accuracy | Drop |
-|---------|----------|------|
-| Agent-Driven (Full) | **73.7%** | — |
-| − Memory Visibility | 63.2% | −10.5 pp |
-| − Consolidation | 63.2% | −10.5 pp |
-| − Update/Delete | 54.4% | −19.3 pp |
+**Agent-Driven excels at**:
+- Contradiction Update (83.3% vs LangMem 72.2%)
+- Temporal Relevance (70.0% vs LangMem 60.0%)
 
-No single component explains the full gap. The advantage comes from the combination of custom extraction, memory visibility, explicit update/delete, and consolidation working together.
+**LangMem excels at**:
+- Consolidation (75.0% vs Agent-Driven 50.0%)
+- Cross-Session Synthesis (50.0% vs Agent-Driven 37.5%)
 
-## Key Takeaways
+**Both struggle with**:
+- Noise Resistance (Agent: 55.6%, LangMem: 55.6%)
 
-1. **Agent-managed memory outperforms external providers**, but the gap is incremental (10.5 pp over Mem0), not categorical. External providers work reasonably well for simpler memory challenges.
+This demonstrates how MemoryBench's category-level analysis reveals structured differences that aggregate accuracy obscures.
 
-2. **Mem0 handles contradictions well** (83%) through its built-in deduplication. The narrative that external providers are "blind" to existing memory is oversimplified — Mem0 checks for duplicates after extraction.
+## Key Findings
 
-3. **Temporal relevance is where agent-managed memory has the clearest advantage.** External providers have no mechanism to proactively expire stale information.
+1. **No single paradigm dominates**: Agent-Driven and LangMem tie at 62.0%, but excel at different operations
 
-4. **Cross-session synthesis is broken for everyone** (≤25%). This is a fundamental limitation of embedding-based retrieval, not a memory management problem.
+2. **Category-level analysis is essential**: Aggregate scores hide complementary strengths and weaknesses
 
-5. **Update/delete is the most impactful single capability** (−19.3 pp when removed). A memory system that can only add facts deteriorates over time as contradictions accumulate.
+3. **Temporal relevance favors agent control**: Systems with explicit update/delete operations handle time-sensitive information better
 
-6. **External providers need more study.** Areas like temporal relevance, memory consolidation, and extraction selectivity are underexplored and represent opportunities for improvement.
+4. **Consolidation favors graph-based memory**: LangMem's entity-relationship structure enables better fact merging
 
-7. **This evaluation methodology could become a community benchmark.** Our diagnostic approach — multi-session profiles with ground-truth annotations targeting specific memory management challenges — could be scaled with crowdsourced conversations and broader scenario coverage.
+5. **Noise resistance is universally challenging**: All systems struggle to filter irrelevant information (≤55.6%)
 
-## Project Structure
+6. **Evaluation methodology matters**: MemoryBench's diagnostic framework reveals structured differences that end-to-end accuracy obscures
+
+## Repository Structure
 
 ```
 ├── benchmark/
-│   └── data.py              # 20 user profiles, 57 tests
+│   └── data.py                    # 20 user profiles, 71 tests across 7 categories
 ├── memory_systems/
-│   ├── agent_driven.py       # Agent-managed memory with full control
-│   ├── external_mem0.py      # Mem0 wrapper
-│   ├── redis_memory.py       # Redis Agent Memory Server wrapper
-│   ├── ablations.py          # No Feedback, No Consolidation, Add Only
-│   ├── no_memory.py          # Current session only baseline
-│   └── embedder.py           # Shared embedding utilities
+│   ├── agent_driven.py            # Agent-managed memory
+│   ├── external_mem0.py           # Mem0 wrapper
+│   ├── langmem_memory.py          # LangMem wrapper
+│   ├── zep_memory.py              # Zep wrapper
+│   ├── redis_memory.py            # Redis wrapper
+│   ├── base.py                    # Base memory interface
+│   └── embedder.py                # Shared embedding utilities
 ├── evaluation/
-│   ├── runner.py             # Experiment runner
-│   ├── metrics.py            # Scoring and aggregation
-│   └── failure_analysis.py   # Failure mode classification
-├── run_experiment.py          # Main experiment script
-├── generate_figures.py        # Paper figure generation
-├── results_v3/               # Raw experiment results (JSON)
-└── finalpaper/               # Paper source (LaTeX + figures)
+│   ├── runner.py                  # Experiment runner
+│   ├── metrics.py                 # Scoring and aggregation
+│   └── failure_analysis.py        # Category-level analysis
+├── human_validation/
+│   ├── annotation_sheet.csv       # Human validation data
+│   ├── answer_key.csv             # Ground truth answers
+│   └── compute_agreement.py       # Agreement calculation (97.2%)
+├── results_v5/                    # Latest experimental results
+│   ├── langmem_*.json             # LangMem results (62.0%)
+│   ├── mem0_*.json                # Mem0 results (45.1%)
+│   └── agent_*.json               # Agent-Driven results
+├── results_v5_improved/           # Agent-Driven improved (62.0%)
+├── shortpaper/                    # ICLR 2026 workshop submission
+│   ├── short_paper.tex            # LaTeX source
+│   ├── short_paper.pdf            # Compiled paper (5 pages)
+│   ├── references.bib             # Bibliography
+│   └── radar_chart.pdf            # Performance visualization
+├── docs/                          # Documentation
+├── run_experiment.py              # Main experiment script
+├── analyze_results.py             # Results analysis
+└── validate_llm_judge.py          # LLM-as-a-judge validation
 ```
 
-## Running Experiments
+## Getting Started
 
-### Setup
+### Installation
 
-1. **Install dependencies**
+1. **Clone the repository**
+```bash
+git clone https://github.com/Jenverse/Memory-Benchmark-1.git
+cd Memory-Benchmark-1
+```
+
+2. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-2. **Configure environment variables**
+3. **Configure environment variables**
 ```bash
 # Copy the example environment file
 cp .env.example .env
@@ -137,20 +168,39 @@ ZEP_API_KEY=   # Only needed for Zep experiments
 ### Running Experiments
 
 ```bash
-# Run specific systems
+# Run specific memory systems
 python run_experiment.py --system agent --trials 1
 python run_experiment.py --system mem0 --trials 1
 python run_experiment.py --system langmem --trials 1
+python run_experiment.py --system zep --trials 1
 
-# Run ablations
-python run_experiment.py --system ablation_no_feedback --trials 1
-python run_experiment.py --system ablation_no_consolidation --trials 1
-python run_experiment.py --system ablation_add_only --trials 1
+# Analyze results
+python analyze_results.py
+
+# Validate LLM-as-a-judge
+python validate_llm_judge.py
 ```
 
-## Requirements
+### Requirements
 
 - Python 3.10+
-- OpenAI API key (uses GPT-4o-mini and text-embedding-3-small)
-- For Mem0 experiments: `pip install mem0ai`
-- For LangMem experiments: `pip install agent-memory-client`
+- OpenAI API key (GPT-4o-mini and text-embedding-3-small)
+- Optional: API keys for external memory services (Mem0, Zep)
+
+## Paper
+
+The ICLR 2026 workshop short paper is available in `shortpaper/short_paper.pdf`.
+
+**Citation** (to be added after publication)
+
+## Human Validation
+
+LLM-as-a-judge evaluation was validated against human annotations with **97.2% agreement** (Cohen's κ = 0.94). See `human_validation/` for details.
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Contact
+
+For questions about the benchmark or paper, please open an issue on GitHub.
