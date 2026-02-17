@@ -296,7 +296,7 @@ Results are saved in `results_v5/` as JSON files.
 │   ├── agent_*.json               # Agent-Driven results (62.0%)
 │   ├── langmem_*.json             # LangMem results (62.0%)
 │   ├── mem0_*.json                # Mem0 results (45.1%)
-│   └── redis_*.json               # Redis results (pending)
+│   └── redis_*.json               # Redis results (45.1%)
 ├── run_experiment.py              # Main experiment script
 ├── analyze_results.py             # Results analysis tool
 └── .env.example                   # Environment variable template
