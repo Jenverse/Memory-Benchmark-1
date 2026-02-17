@@ -119,11 +119,6 @@ This demonstrates how MemoryBench's category-level analysis reveals structured d
 │   ├── mem0_*.json                # Mem0 results (45.1%)
 │   └── agent_*.json               # Agent-Driven results
 ├── results_v5_improved/           # Agent-Driven improved (62.0%)
-├── shortpaper/                    # ICLR 2026 workshop submission
-│   ├── short_paper.tex            # LaTeX source
-│   ├── short_paper.pdf            # Compiled paper (5 pages)
-│   ├── references.bib             # Bibliography
-│   └── radar_chart.pdf            # Performance visualization
 ├── docs/                          # Documentation
 ├── run_experiment.py              # Main experiment script
 ├── analyze_results.py             # Results analysis
@@ -179,9 +174,7 @@ python validate_llm_judge.py
 - OpenAI API key (GPT-4o-mini and text-embedding-3-small)
 - Optional: API key for Mem0 (leave empty to use local Mem0)
 
-## Paper
-
-The ICLR 2026 workshop short paper is available in `shortpaper/short_paper.pdf`.
+## Citation
 
 **Citation** (to be added after publication)
 
@@ -195,4 +188,4 @@ MIT License - see LICENSE file for details
 
 ## Contact
 
-For questions about the benchmark or paper, please open an issue on GitHub.
+For questions about the benchmark, please open an issue on GitHub.
