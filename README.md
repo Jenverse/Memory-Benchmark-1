@@ -61,6 +61,7 @@ All systems use the same LLM (GPT-4o-mini) and embedding model (text-embedding-3
 |--------|----------------|
 | **Base** (no memory) | 0.0% |
 | **Mem0** | 45.1% |
+| **Redis** | 43.7% |
 | **LangMem** | 62.0% |
 | **Agent-Driven** | 62.0% |
 
