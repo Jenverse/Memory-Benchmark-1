@@ -71,19 +71,17 @@ Our evaluation uses **71 tests across 7 categories** that test different memory 
 
 ### Overall Performance
 
-| System | Accuracy | Rank | Type |
-|--------|----------|------|------|
-| **Agent-Driven** | 62.0% | 🥇 1st | Agent-Managed |
-| **LangMem** | 62.0% | 🥇 1st | Graph-Based |
-| **Mem0** | 45.1% | 🥉 3rd | External Service |
-| **Redis** | *Evaluating...* | TBD | External Service |
-| **Base** (no memory) | 0.0% | - | Baseline |
-
-> **Note**: Redis evaluation is currently running. Results will be updated once complete.
+| System | Accuracy | Accuracy (w/ Partial) | Type |
+|--------|----------|----------------------|------|
+| **Agent-Driven** | 62.0% | ~89% | Agent-Managed |
+| **LangMem** | 62.0% | ~74% | Graph-Based |
+| **Mem0** | 45.1% | ~66% | External Service |
+| **Redis** | 45.1% | 71.8% | External Service |
+| **Base** (no memory) | 0.0% | 0.0% | Baseline |
 
 ### Key Insights
 
-#### 🏆 **Top Performers: Agent-Driven & LangMem (62.0%)**
+#### **Agent-Driven & LangMem (62.0%)** - Highest Accuracy
 Both achieve the same overall score but excel at **different operations**:
 
 **Agent-Driven is better at:**
@@ -106,27 +104,55 @@ Both achieve the same overall score but excel at **different operations**:
 - ⚠️ **Noise Resistance**: 55.6% for both
   - *Challenge*: Hard to distinguish important facts from casual chitchat
 
-#### 📊 **Mem0 Performance (45.1%)**
+#### **Redis Performance (45.1%)** - External Memory Service
+
+**Overall**: 45.1% strict accuracy, 71.8% with partial credit
+
+**Strengths:**
+- ✅ **Noise Resistance**: 77.8% (best category, beats all other systems)
+  - *Why*: Good at filtering irrelevant information
+  - *Example*: Ignores casual chitchat, focuses on important facts
+- ✅ **Implicit Preference**: 60.0% (80.0% with partial)
+  - *Why*: Captures unstated preferences from behavior patterns
+  - *Example*: Notices user always picks vegetarian options
+
+**Weaknesses:**
+- ⚠️ **Temporal Relevance**: 20.0% (40.0% with partial)
+  - *Challenge*: Struggles to recognize when information becomes stale
+  - *Example*: Keeps "current project" from 6 months ago
+- ⚠️ **Cross-Session Synthesis**: 12.5% (87.5% with partial)
+  - *Challenge*: Retrieves partial information but struggles to synthesize complete answers
+  - *Example*: Finds related facts but doesn't connect them well
+- ⚠️ **Consolidation**: 25.0% (87.5% with partial)
+  - *Challenge*: Retrieves related memories but doesn't merge them effectively
+
+**Mixed Performance:**
+- **Contradiction Update**: 55.6% (61.1% with partial)
+  - Better than Mem0 but worse than Agent-Driven and LangMem
+- **Simple Recall**: 50.0% (87.5% with partial)
+  - Retrieves information but sometimes incomplete
+
+**Key Observation**: Redis shows high partial credit scores (87.5% for consolidation, cross-session, and simple recall), indicating it **retrieves relevant information** but struggles to **synthesize complete answers**.
+
+#### **Mem0 Performance (45.1%)** - External Memory Service
 - **Strengths**: Easy to integrate, automated extraction
 - **Weaknesses**: Less control over what gets stored and updated
 - **Best for**: Quick prototypes, simple use cases
-
-#### 🔄 **Redis Performance (TBD)**
-- **Status**: Currently evaluating on all 71 tests
-- **Expected**: Results will show how Redis compares to other external memory services
-- **Focus**: Production scalability vs. accuracy trade-offs
+- **Note**: Performs identically to Redis in overall accuracy
 
 ### Performance by Category
 
-| Category | Agent-Driven | LangMem | Mem0 | Redis | Winner |
-|----------|--------------|---------|------|-------|--------|
-| Contradiction Update | 83.3% | 72.2% | ~45% | *TBD* | Agent-Driven |
-| Temporal Relevance | 70.0% | 60.0% | ~40% | *TBD* | Agent-Driven |
-| Consolidation | 50.0% | 75.0% | ~35% | *TBD* | LangMem |
-| Cross-Session Synthesis | 37.5% | 50.0% | ~30% | *TBD* | LangMem |
-| Implicit Preference | ~60% | ~60% | ~50% | *TBD* | Tie |
-| Noise Resistance | 55.6% | 55.6% | ~45% | *TBD* | Tie |
-| Simple Recall | ~65% | ~65% | ~50% | *TBD* | Tie |
+| Category | Agent-Driven | LangMem | Mem0 | Redis | Best System |
+|----------|--------------|---------|------|-------|-------------|
+| **Contradiction Update** | 83.3% | 72.2% | ~45% | 55.6% | Agent-Driven |
+| **Temporal Relevance** | 70.0% | 60.0% | ~40% | 20.0% | Agent-Driven |
+| **Consolidation** | 50.0% | 75.0% | ~35% | 25.0% | LangMem |
+| **Cross-Session Synthesis** | 37.5% | 50.0% | ~30% | 12.5% | LangMem |
+| **Implicit Preference** | ~60% | ~60% | ~50% | 60.0% | Agent/LangMem/Redis |
+| **Noise Resistance** | 55.6% | 55.6% | ~45% | **77.8%** | **Redis** |
+| **Simple Recall** | ~65% | ~65% | ~50% | 50.0% | Agent-Driven/LangMem |
+
+**Key Takeaway**: Redis excels at **Noise Resistance** (77.8%), outperforming all other systems, but struggles with **Temporal Relevance** (20.0%) and **Cross-Session Synthesis** (12.5%).
 
 ## What This Means for You
 
@@ -137,38 +163,50 @@ Both achieve the same overall score but excel at **different operations**:
 - ✅ Your use case involves frequently changing information (locations, jobs, preferences)
 - ✅ You can invest time in prompt engineering
 - ✅ Temporal relevance is critical (e.g., project management, customer support)
+- ✅ You need the highest overall accuracy (62.0%)
 
 **Choose LangMem if:**
 - ✅ You need to consolidate information across many sessions
 - ✅ Your use case involves complex relationships between entities
 - ✅ You want automatic knowledge graph construction
 - ✅ Cross-session synthesis is important (e.g., research assistants, knowledge bases)
+- ✅ You need the highest overall accuracy (62.0%)
+
+**Choose Redis if:**
+- ✅ **Noise filtering is critical** - Redis excels at ignoring irrelevant information (77.8%)
+- ✅ You need production-scale infrastructure with vector search
+- ✅ Scalability and infrastructure maturity are priorities
+- ✅ Your use case doesn't require strong temporal awareness
+- ✅ You can accept 45.1% accuracy for easier integration
+- ⚠️ **Avoid if**: Temporal relevance or cross-session synthesis are critical (weak areas)
 
 **Choose Mem0 if:**
 - ✅ You want quick integration with minimal setup
 - ✅ Your use case is relatively simple (basic fact storage and retrieval)
 - ✅ You prefer automated memory management
-- ✅ Accuracy trade-offs are acceptable for ease of use
-
-**Choose Redis if:**
-- ✅ You need production-scale infrastructure
-- ✅ You want vector search and semantic retrieval
-- ✅ Scalability is a priority
-- ✅ *Results pending - will update with specific recommendations*
+- ✅ Accuracy trade-offs are acceptable for ease of use (45.1%)
+- ✅ Similar performance to Redis but potentially simpler setup
 
 ### Trade-offs to Consider
 
 1. **Control vs. Automation**
-   - Agent-Driven: High control, requires more engineering
-   - External services (Mem0, Redis): Low control, easier integration
+   - **Agent-Driven**: High control, requires more engineering → 62.0% accuracy
+   - **External services (Mem0, Redis)**: Low control, easier integration → 45.1% accuracy
 
 2. **Accuracy vs. Ease of Use**
-   - Agent-Driven & LangMem: Higher accuracy, more complex setup
-   - Mem0: Lower accuracy, simpler integration
+   - **Agent-Driven & LangMem**: Higher accuracy (62.0%), more complex setup
+   - **Mem0 & Redis**: Lower accuracy (45.1%), simpler integration
 
 3. **Specialization vs. General Performance**
-   - No single system is best at everything
-   - Choose based on your specific use case requirements
+   - **Redis**: Best at noise filtering (77.8%) but weak at temporal relevance (20.0%)
+   - **Agent-Driven**: Best at contradiction updates (83.3%) and temporal relevance (70.0%)
+   - **LangMem**: Best at consolidation (75.0%) and cross-session synthesis (50.0%)
+   - No single system is best at everything - choose based on your specific use case
+
+4. **Redis vs. Mem0** (Both 45.1% accuracy)
+   - **Redis strengths**: Better noise resistance (77.8% vs ~45%), production infrastructure
+   - **Mem0 strengths**: Potentially simpler setup, similar overall performance
+   - **Key difference**: Redis excels at filtering noise, Mem0 is more balanced across categories
 
 ## How to Run Your Own Evaluation
 
